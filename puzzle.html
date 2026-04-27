@@ -81,24 +81,21 @@
     const input = document.getElementById('answer');
     const result = document.getElementById('result');
     
-    input.addEventListener('keyup', (e) => {
+input.addEventListener('keyup', (e) => {
       const val = e.target.value.toLowerCase().trim();
       
-      // Accept shark, sharkos, or even just "shark"
-      if (val === 'shark' || val === 'sharkos') {
+      if (val === 'sharkos') {
         result.className = 'correct';
         result.style.display = 'block';
         result.innerHTML = 'Correct! <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Open SharkOS →</a>';
+      } else if (val.includes('shark') && val.length > 5) {
+        result.className = 'correct';
+        result.style.display = 'block';
+        result.innerHTML = 'Close! Remove the space. <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Or click here →</a>';
       } else if (val.length > 0) {
-        if (val.includes('shark')) {
-          result.className = 'correct';
-          result.style.display = 'block';
-          result.innerHTML = 'Close! Try removing the space. <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Or click here →</a>';
-        } else {
-          result.className = 'wrong';
-          result.style.display = 'block';
-          result.textContent = 'Malapit na. Hint: Shark + OS (walang space)';
-        }
+        result.className = 'wrong';
+        result.style.display = 'block';
+        result.textContent = 'Try again';
       } else {
         result.style.display = 'none';
       }
