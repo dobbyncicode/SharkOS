@@ -56,22 +56,21 @@
 <body>
   <div class="container">
     <div class="emoji">🦈</div>
-    <h1>You have a message...</h1>
+    <h1>May gift ako sayo...</h1>
     
     <div class="clue">
       <div class="hint">Clue #1</div>
-      <p>I'm not a hacker, but I hacked your heart 19 months ago.</p>
+      <p>19 months na tayong magkasama. Ilang buwan na?</p>
     </div>
     
     <div class="clue">
       <div class="hint">Clue #2</div>
-      <p>My name is at the end of this URL:</p>
-      <p style="font-size: 12px; color: #6a6a7a; margin-top: 8px;">https://dobbyncicode.github.io/___</p>
+      <p>Name mo sa'kin...</p>
     </div>
     
     <div class="clue">
       <div class="hint">Clue #3</div>
-      <p>It's the name of this animal: 🦈</p>
+      <p>🦈</p>
     </div>
     
     <input type="text" id="answer" placeholder="Type the answer...">
@@ -85,14 +84,21 @@
     input.addEventListener('keyup', (e) => {
       const val = e.target.value.toLowerCase().trim();
       
-      if (val === 'sharkos') {
+      // Accept shark, sharkos, or even just "shark"
+      if (val === 'shark' || val === 'sharkos') {
         result.className = 'correct';
         result.style.display = 'block';
-        result.innerHTML = '🎉 Correct! <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">https://dobbyncicode.github.io/SharkOS/</a>';
+        result.innerHTML = '🎉 Galing mo! <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Click dito para i-open!</a>';
       } else if (val.length > 0) {
-        result.className = 'wrong';
-        result.style.display = 'block';
-        result.textContent = '❌ Hint: The animal in the emoji!';
+        if (val.includes('shark')) {
+          result.className = 'correct';
+          result.style.display = 'block';
+          result.innerHTML = '🎉 Almost! Try without extra letters. <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Or click dito na lang!</a>';
+        } else {
+          result.className = 'wrong';
+          result.style.display = 'block';
+          result.textContent = '❌ Hint: Isang hayop lang yan 🦈';
+        }
       } else {
         result.style.display = 'none';
       }
