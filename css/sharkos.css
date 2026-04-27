@@ -1,0 +1,631 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #0a0a0f;
+  --bg-panel: #12121a;
+  --bg-hover: #1a1a25;
+  --accent: #ff6b9d;
+  --text: #e0e0e0;
+  --text-dim: #6a6a7a;
+  --border: #2a2a35;
+}
+
+body {
+  font-family: 'Space Mono', monospace;
+  background: var(--bg-dark);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+}
+
+#desktop {
+  width: 100%;
+  height: calc(100vh - 48px);
+  position: relative;
+}
+
+#icons {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 200px;
+  align-content: flex-start;
+  z-index: 1;
+}
+
+#windows {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.window {
+  pointer-events: auto;
+}
+
+#date-display {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-dim);
+  z-index: 1;
+}
+
+#date-display .time {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.icon {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.icon:hover {
+  background: var(--bg-hover);
+}
+
+.icon.selected {
+  background: var(--bg-hover);
+  outline: 1px solid var(--accent);
+}
+
+.icon-img {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: var(--bg-panel);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.icon-label {
+  font-size: 11px;
+  text-align: center;
+  color: var(--text);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.window {
+  position: absolute;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: column;
+  min-width: 400px;
+  min-height: 300px;
+  overflow: hidden;
+  animation: windowOpen 0.3s ease;
+}
+
+@keyframes windowOpen {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.window.active {
+  display: flex;
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+  cursor: move;
+}
+
+.window-title {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.window-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.window-btn:hover {
+  opacity: 0.7;
+}
+
+.window-btn.close { background: #ff5f57; }
+.window-btn.minimize { background: #febc2e; }
+.window-btn.maximize { background: #28c840; }
+
+.window-btn::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: 3px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+}
+
+.taskbar-window {
+  padding: 0 12px;
+  height: 28px;
+  background: var(--bg-hover);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.taskbar-window:hover {
+  background: var(--bg-dark);
+}
+
+.taskbar-window.active {
+  background: var(--accent);
+  color: var(--bg-dark);
+}
+
+#taskbar-windows {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.window-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
+#taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 8px;
+}
+
+#start-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.2s;
+}
+
+#start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+}
+
+#search {
+  flex: 1;
+  max-width: 300px;
+  height: 36px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+#search span {
+  opacity: 0.6;
+}
+
+.taskbar-items {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.taskbar-item {
+  height: 36px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.taskbar-item:hover {
+  background: var(--bg-hover);
+}
+
+.taskbar-item.active {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+#start-menu {
+  position: fixed;
+  bottom: 56px;
+  left: 16px;
+  width: 320px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+#start-menu.active {
+  display: block;
+  animation: menuOpen 0.2s ease;
+}
+
+@keyframes menuOpen {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-section {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.menu-section:last-child {
+  border-bottom: none;
+}
+
+.menu-title {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.menu-icon {
+  font-size: 20px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.profile-info .name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.profile-info .status {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.playlist .track {
+  padding: 12px;
+  background: var(--bg-dark);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.playlist .track:hover {
+  background: var(--bg-hover);
+}
+
+.playlist .track.playing {
+  border-left: 3px solid var(--accent);
+}
+
+.playlist .play-btn {
+  color: var(--text-dim);
+}
+
+.playlist .track.playing .play-btn {
+  color: var(--accent);
+}
+
+.player-controls button {
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.player-controls button:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+}
+
+#seek-bar {
+  -webkit-appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+#seek-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.game-stats span {
+  color: var(--text);
+}
+
+#game-canvas {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: crosshair;
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  #desktop {
+    padding: 50px 8px 8px;
+    height: auto;
+    min-height: calc(100vh - 64px);
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: flex-start;
+  }
+
+  #date-display {
+    position: absolute;
+    top: 8px !important;
+    left: 12px;
+    right: auto;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+  }
+
+  #date-display .time {
+    font-size: 18px;
+  }
+
+  #date-display #date {
+    font-size: 10px;
+  }
+
+  #icons {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 100%;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .icon {
+    width: 72px;
+    padding: 8px 4px;
+    gap: 4px;
+  }
+
+  .icon-img {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    border-radius: 8px;
+  }
+
+  .icon-label {
+    font-size: 9px;
+  }
+
+  #windows {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+  }
+
+  .window {
+    min-width: calc(100vw - 16px) !important;
+    width: calc(100vw - 16px) !important;
+    min-height: 50vh !important;
+    max-height: 80vh;
+    left: 8px !important;
+    right: 8px !important;
+    top: 10vh !important;
+  }
+
+  .window-content {
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  .window-title {
+    font-size: 11px !important;
+  }
+
+  .window-header {
+    padding: 8px 12px;
+  }
+
+  .window-btn {
+    width: 14px;
+    height: 14px;
+  }
+
+  #taskbar {
+    height: 56px;
+    padding: 0 8px;
+  }
+
+  #start-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  #search {
+    display: none;
+  }
+
+  .taskbar-items {
+    gap: 2px;
+  }
+
+  .taskbar-item {
+    padding: 0 8px;
+    font-size: 10px;
+  }
+
+  #taskbar-windows {
+    display: none;
+  }
+
+  .game-stats {
+    font-size: 12px !important;
+    gap: 12px !important;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #game-canvas {
+    width: 100% !important;
+    height: 180px !important;
+    touch-action: none;
+    border-radius: 6px;
+  }
+
+  #game-btn {
+    width: 100%;
+    padding: 14px !important;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .playlist .track {
+    padding: 14px;
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  #start-menu {
+    left: 4px;
+    right: 4px;
+    width: auto;
+    bottom: 64px;
+    padding: 12px;
+  }
+
+  .menu-item {
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  .profile-section {
+    padding: 12px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}

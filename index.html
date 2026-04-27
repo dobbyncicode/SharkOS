@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-config="app.name">SharkOS</title>
+  <link rel="stylesheet" href="css/sharkos.css">
+</head>
+<body>
+
+  <div id="desktop">
+    <div id="date-display">
+      <div class="time" id="time">12:00</div>
+      <div id="date">April 27, 2026</div>
+    </div>
+
+    <div id="icons"></div>
+
+    <div id="windows"></div>
+  </div>
+
+  <div id="start-menu">
+    <div class="profile-section">
+      <div class="avatar" data-config="profile.ownerEmoji">🧑</div>
+      <div class="profile-info">
+        <div class="name" data-config="profile.owner">Owner</div>
+        <div class="status" data-config="profile.status">Status</div>
+      </div>
+    </div>
+    <div id="menu-items"></div>
+  </div>
+
+  <div id="taskbar">
+    <div id="start-btn" data-action="toggle-start">🦈</div>
+    <div id="taskbar-windows"></div>
+    <div class="taskbar-items">
+      <div class="taskbar-item">🔊</div>
+      <div class="taskbar-item">📶</div>
+      <div class="taskbar-item" id="taskbar-time">12:00 PM</div>
+    </div>
+  </div>
+
+  <script src="js/sharkos.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

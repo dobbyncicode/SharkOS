@@ -1,0 +1,64 @@
+{
+  "app": {
+    "name": "SharkOS",
+    "menuLabels": {
+      "love": "Love",
+      "system": "System"
+    },
+    "reasonsLabel": "Reasons Why I Love You",
+    "gameLabel": "Heart-eating Shark",
+    "letterLabel": "Love Letter",
+    "musicLabel": "Our Playlist"
+  },
+  "profile": {
+    "me": "Dobby",
+    "meEmoji": "🥷🧑",
+    "partner": "Lara",
+    "partnerEmoji": "🦈",
+    "status": "me of Lara's Heart"
+  },
+  "apps": [
+    { "id": "reasons", "label": "Reasons Why I Love You", "icon": "💌", "menu": "love" },
+    { "id": "game", "label": "Heart-eating Shark", "icon": "🎮", "menu": "love" },
+    { "id": "letter", "label": "Love Letter", "icon": "🦈", "menu": "love" },
+    { "id": "music", "label": "Our Playlist", "icon": "🎵", "menu": "love" }
+  ],
+  "theme": {
+    "colors": {
+      "bg-dark": "#0a0a0f",
+      "bg-panel": "#12121a",
+      "bg-hover": "#1a1a25",
+      "accent": "#ff6b9d",
+      "text": "#e0e0e0",
+      "text-dim": "#6a6a7a",
+      "border": "#2a2a35"
+    }
+  },
+  "playlist": [
+    { "title": "Jason Mraz - I'm Yours", "src": "songs/Jason Mraz - I'm Yours.mp3" },
+    { "title": "KIMMUSEUM - We're Already", "src": "songs/KIMMUSEUM - We're Already.mp3" },
+    { "title": "ONE CLICK STRAIGHT - otw", "src": "songs/ONE CLICK STRAIGHT - otw.mp3" },
+    { "title": "Over October - Kaakit-akit", "src": "songs/Over October - Kaakit-akit.mp3" }
+  ],
+  "loveLetter": {
+    "title": "Happy 19th Month, Love {{partnerEmoji}}💕!",
+    "paragraphs": [
+      "Nineteen months and counting. Can you imagine na ako yung magiging kasama mo sa halos dalawang taon na HAHA. Di na uso magselos sa'yo kasi alam kong sa akin ka na (I only said that. Magsisilus parin ako).",
+      "Salamat, Ms. {{partner}}. Sa lahat. Sa late night calls, sa random whatever dumps mo, sa love mo. Salamat sa pagtitiis sakin kahit annoying minsan.",
+      "Here's to more months of walang kwenta moments, and just existing together. I love you."
+    ],
+    "signature": "— Your fatass {{meEmoji}}"
+  },
+  "reasons": [
+    "Your smile brightens even my worst days",
+    "Your laughter is my favorite sound",
+    "You push me to be better",
+    "You beat gloc-9 with your rapping and beatboxing skills",
+    "Everything. literally everything. ❤️"
+  ],
+  "game": {
+    "lives": 3,
+    "spawnRate": 0.02,
+    "heartSpeed": { "min": 2, "max": 4 }
+  }
+}
