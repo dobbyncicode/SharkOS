@@ -56,21 +56,21 @@
 <body>
   <div class="container">
     <div class="emoji">🦈</div>
-    <h1>May gift ako sayo...</h1>
+    <h1>Gift</h1>
     
     <div class="clue">
-      <div class="hint">Clue #1</div>
+      <div class="hint">1</div>
       <p>🦈</p>
     </div>
     
     <div class="clue">
-      <div class="hint">Clue #2</div>
-      <p>Walang space dyan</p>
+      <div class="hint">2</div>
+      <p>Operating System (short)</p>
     </div>
     
     <div class="clue">
-      <div class="hint">Clue #3</div>
-      <p>Shark + O + S (walang + or space)</p>
+      <div class="hint">3</div>
+      <p>1 + 2 = ?</p>
     </div>
     
     <input type="text" id="answer" placeholder="Type the answer...">
@@ -88,16 +88,16 @@
       if (val === 'shark' || val === 'sharkos') {
         result.className = 'correct';
         result.style.display = 'block';
-        result.innerHTML = '🎉 Galing mo! <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Click dito para i-open!</a>';
+        result.innerHTML = 'Correct! <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Open SharkOS →</a>';
       } else if (val.length > 0) {
         if (val.includes('shark')) {
           result.className = 'correct';
           result.style.display = 'block';
-          result.innerHTML = '🎉 Almost! Try without extra letters. <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Or click dito na lang!</a>';
+          result.innerHTML = 'Close! Try removing the space. <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Or click here →</a>';
         } else {
           result.className = 'wrong';
           result.style.display = 'block';
-          result.textContent = '❌ Hint: Isang hayop lang yan 🦈';
+          result.textContent = 'Malapit na. Hint: Shark + OS (walang space)';
         }
       } else {
         result.style.display = 'none';
