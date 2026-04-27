@@ -83,15 +83,16 @@
     
 input.addEventListener('keyup', (e) => {
       const val = e.target.value.toLowerCase().trim();
+      const noSpace = val.replace(' ', '');
       
       if (val === 'sharkos') {
         result.className = 'correct';
         result.style.display = 'block';
         result.innerHTML = 'Correct! <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Open SharkOS →</a>';
-      } else if (val.includes('shark') && val.length > 5) {
-        result.className = 'correct';
+      } else if (noSpace === 'sharkos' && val.includes(' ')) {
+        result.className = 'wrong';
         result.style.display = 'block';
-        result.innerHTML = 'Close! Remove the space. <a href="https://dobbyncicode.github.io/SharkOS/" class="link" target="_blank">Or click here →</a>';
+        result.textContent = 'Malapit! Try w/o space';
       } else if (val.length > 0) {
         result.className = 'wrong';
         result.style.display = 'block';
