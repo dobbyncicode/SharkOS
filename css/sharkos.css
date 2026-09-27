@@ -772,8 +772,18 @@ body {
   border-radius: 2px;
 }
 
+.changelog-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
 .changelog-headline {
-  font-size: clamp(20px, 3.5vw, 28px);
+  font-size: clamp(22px, 4vw, 32px);
   font-weight: 800;
   color: var(--accent);
   letter-spacing: -0.02em;
@@ -784,11 +794,11 @@ body {
 }
 
 .changelog-sub {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-dim);
   text-align: center;
   font-style: italic;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .changelog-divider {
@@ -801,37 +811,38 @@ body {
 }
 
 .changelog-body {
-  font-size: 11px;
-  line-height: 1.7;
-  color: var(--text-dim);
+  font-size: 9px;
+  line-height: 1.6;
+  color: var(--text-faint);
   font-family: 'Courier New', monospace;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  opacity: 0.7;
 }
 
 .changelog-body .clause {
-  margin-bottom: 14px;
-  padding-left: 12px;
-  border-left: 2px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .changelog-body .clause-title {
-  color: var(--text);
+  color: var(--text-dim);
   font-weight: 700;
-  font-size: 10px;
+  font-size: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .changelog-body p {
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .changelog-body .fine-print {
-  font-size: 9px;
+  font-size: 8px;
   color: var(--text-faint);
   font-style: italic;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .changelog-footer {
