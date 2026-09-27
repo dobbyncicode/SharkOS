@@ -172,15 +172,15 @@
 
         <div class="cl-tag cl-tag-break">Breaking</div>
         <p>Taskbar deleted. There is a menu bar now, at the top. The dock moved to the bottom. No migration path, no deprecation notice, no apology.</p>
-        <p>Entire visual layer replaced with a glassmorphism system — real <code>backdrop-filter</code> blur, saturated fills, hairline borders. Every surface. The old build was a reskin; this one is a rewrite.</p>
+        <p>Entire visual layer replaced with a glassmorphism system: real <code>backdrop-filter</code> blur, saturated fills, hairline borders. Every surface. The old build was a reskin; this one is a rewrite.</p>
 
         <div class="cl-tag cl-tag-add">Added</div>
-        <p><b>Our Story</b> — a three-act ASCII story. 14 scenes, 3 endings, branchable, plays start to finish without stalling.</p>
+        <p><b>Our Story</b>: a three-act ASCII story. 14 scenes, 3 endings, branchable, plays start to finish without stalling.</p>
         <p>A "What's New" button in the menu bar, deliberately near-invisible, for when you dismiss this and immediately regret it.</p>
         <p>Clock widget. Dock magnification that lerps instead of snapping.</p>
 
         <div class="cl-tag cl-tag-fix">Fixed</div>
-        <p><b>The story froze. Twice.</b> Two <code>next</code> pointers referenced <code>act2</code> / <code>act3</code> — array names, not scene ids — so the lookup returned <code>-1</code> and the engine silently returned. Both are fixed.</p>
+        <p><b>The story froze. Twice.</b> Two <code>next</code> pointers referenced <code>act2</code> / <code>act3</code>, which are array names and not scene ids, so the lookup returned <code>-1</code> and the engine silently returned. Both are fixed.</p>
         <p>Added <code>resolveNext()</code>: an unresolvable <code>next</code> now falls back to the next scene in array order and logs a warning, so a bad link can never freeze the UI again.</p>
         <p>Backslashes in the ASCII art were being silently consumed by the JS template literal, so the guinea pigs rendered with no legs. The art now matches the source.</p>
         <p>Leftover debug art ("SOMETHING IS WRONG") removed from the logout scene.</p>
@@ -188,12 +188,12 @@
         <div class="cl-tag cl-tag-write">Writing</div>
         <p>All 14 scenes rebuilt to a uniform 25-column frame with aligned box interiors.</p>
         <p>She has agency now. She opens the conversation, she demands the confession, she sets the date, she pushes to meet, she picks the staycation. Previously she just received things.</p>
-        <p>Point of view is strict — "you" is her, "he" is him. Cut every third-person slip ("the two of them", "we know", "She finished nursing").</p>
+        <p>Point of view is strict: "you" is her, "he" is him. Cut every third-person slip ("the two of them", "we know", "She finished nursing").</p>
         <p>Consistency pass against the real timeline. Removed a breadwinner who never existed, a hallway in a building he was never physically in, and a line that flatly contradicted the next one.</p>
         <p>Cut the legal disclaimer from the ending. It was deflating the landing it sat under.</p>
 
         <div class="cl-tag cl-tag-same">Untouched</div>
-        <p>The five reasons. The shark game. The four songs. The puzzle gate — still "1 + 2 = ?", still "sharkos". The playlist is still curated.</p>
+        <p>The five reasons. The shark game. The four songs. The puzzle gate: still "1 + 2 = ?", still "sharkos". The playlist is still curated.</p>
       </div>
 
       <p class="fine-print">* This changelog is legally binding in zero jurisdictions. The Developer is not a lawyer. The Developer is a fatass.</p>
@@ -201,7 +201,7 @@
 
     <div class="changelog-signature">
       <p>Executed this day by</p>
-      <p class="sig-name">— Your fatass 🥷🧑</p>
+      <p class="sig-name">Your fatass 🥷🧑</p>
       <p style="font-size: 10px; color: var(--text-faint); margin-top: 4px;">CEO, Founder, Lead Developer, & Janitor of SharkOS</p>
     </div>
 
