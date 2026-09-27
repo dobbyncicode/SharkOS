@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>For You</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'VT323', 'Courier New', monospace;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+
+  #screen {
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16/9;
+    max-height: 100vh;
+    background: #0a0a0a;
+    border: 2px solid #333;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(255, 100, 150, 0.08);
+  }
+
+  #ascii-layer, #text-layer, #choice-layer, #fade-layer {
+    position: absolute;
+    inset: 0;
+    padding: 20px 30px;
+    white-space: pre;
+    font-size: clamp(9px, 1.4vw, 16px);
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+
+  #ascii-layer { color: #bbb; z-index: 1; }
+  #text-layer {
+    z-index: 2;
+    bottom: 0;
+    top: auto;
+    padding: 15px 30px 20px 30px;
+    color: #eee;
+    text-shadow: 0 0 8px rgba(255,255,255,0.2);
+  }
+
+  #speaker {
+    color: #ff6b9d;
+    font-weight: bold;
+    font-size: clamp(11px, 1.6vw, 18px);
+  }
+
+  #dialogue {
+    min-height: 3.5em;
+    color: #ddd;
+  }
+
+  #choices {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 340px;
+  }
+
+  .choice-btn {
+    background: rgba(10, 10, 30, 0.92);
+    border: 1px solid #ff6b9d;
+    color: #eee;
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: clamp(13px, 1.8vw, 20px);
+    padding: 12px 24px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    position: relative;
+    letter-spacing: 0.5px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .choice-btn::before {
+    content: '▶ ';
+    color: #ff6b9d;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .choice-btn:hover, .choice-btn.selected, .choice-btn:active {
+    background: rgba(255, 107, 157, 0.12);
+    border-color: #ff9dc0;
+    padding-left: 32px;
+  }
+
+  .choice-btn:hover::before, .choice-btn.selected::before, .choice-btn:active::before {
+    opacity: 1;
+  }
+
+  .choice-btn .key-hint {
+    color: #ff6b9d;
+    margin-right: 6px;
+  }
+
+  #fade-layer {
+    background: #000;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  #title-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #0a0a0a;
+    color: #ff6b9d;
+    text-align: center;
+    transition: opacity 1s ease;
+    padding: 20px;
+  }
+
+  #title-screen h1 {
+    font-size: clamp(24px, 5vw, 52px);
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(255,107,157,0.4);
+    margin-bottom: 8px;
+  }
+
+  #title-screen .subtitle {
+    color: #666;
+    font-size: clamp(12px, 2vw, 18px);
+    margin-bottom: 30px;
+  }
+
+  #start-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #ff6b9d;
+    color: #ff6b9d;
+    font-family: 'VT323', monospace;
+    font-size: clamp(16px, 2.5vw, 24px);
+    padding: 14px 36px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #start-btn:hover, #start-btn:active {
+    background: rgba(255,107,157,0.12);
+    transform: translateY(-2px);
+  }
+
+  #continue-hint {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    z-index: 4;
+    color: #444;
+    font-size: clamp(10px, 1.3vw, 14px);
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  .heart { color: #ff6b9d; }
+  .star { color: #ffe066; }
+  .nature { color: #6bcb77; }
+  .water { color: #4d96ff; }
+  .fire { color: #ff8c42; }
+
+  #particles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    #screen {
+      border: none;
+      border-radius: 0;
+      max-width: 100%;
+      aspect-ratio: auto;
+      height: 100vh;
+    }
+
+    #ascii-layer, #text-layer, #choice-layer, #fade-layer {
+      padding: 12px 16px;
+      font-size: clamp(8px, 2.5vw, 12px);
+    }
+
+    #text-layer {
+      padding: 10px 16px 14px 16px;
+    }
+
+    #choices {
+      min-width: 260px;
+      width: calc(100% - 32px);
+    }
+
+    .choice-btn {
+      padding: 14px 20px;
+      font-size: clamp(14px, 4vw, 18px);
+    }
+
+    #title-screen h1 {
+      font-size: clamp(20px, 6vw, 36px);
+    }
+
+    #title-screen .subtitle {
+      font-size: clamp(11px, 3vw, 14px);
+      margin-bottom: 20px;
+    }
+
+    #start-btn {
+      padding: 16px 32px;
+      font-size: clamp(16px, 5vw, 22px);
+    }
+  }
+</style>
+</head>
+<body>
+<div id="screen">
+  <div id="title-screen">
+    <h1>♥ Our Story ♥</h1>
+    <div class="subtitle">a story told in stars and text</div>
+    <button id="start-btn" onclick="startGame()">▶ Begin</button>
+  </div>
+
+  <canvas id="particles"></canvas>
+  <pre id="ascii-layer"></pre>
+  <div id="text-layer">
+    <div id="speaker"></div>
+    <div id="dialogue"></div>
+  </div>
+  <div id="choices"></div>
+  <div id="continue-hint">tap / space to continue ▸</div>
+  <div id="fade-layer"></div>
+</div>
+
+<script>
+// ============================================================
+//  OUR STORY — An Interactive ASCII Love Story
+//  For Dobby & Lara
+//  You play as her.
+// ============================================================
+
+const Game = {
+  currentScene: 0,
+  currentLine: 0,
+  typing: false,
+  typeTimer: null,
+  selectedChoice: 0,
+  choicesVisible: false,
+  waitingForContinue: false,
+  affection: 0,
+  particles: [],
+  particleCtx: null,
+  particleInterval: null
+};
+
+// ============================================================
+//  STORY DATA
+// ============================================================
+
+const story = [
+  // --- SCENE 1: THE BPO ---
+  {
+    id: "bpo",
+    bg: `
+    ~~~~~ THE BPO ~~~~~
+    .    *  .        .  *  .
+  .  NIGHT SHIFT  .    *    .
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+     ___||___________||___
+    |   |  []  []  |   |___
+    |   |  []  []  |   |__.
+    |___|__________|___|
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *        .    .      *
+`,
+    lines: [
+      { speaker: "Narrator", text: "It's a Tuesday night. The BPO is quiet — just the hum of fans and the clatter of keyboards. Everyone's on their headsets, pretending to care about metrics." },
+      { speaker: "Narrator", text: "You're both on the same team. Different shifts, different desks. You've seen him around. Quiet. Shy. Kind of cute, if you're being honest." },
+      { speaker: "Narrator", text: "Tonight, something is different. Tonight, you're not okay. And for some reason, you want him to know." },
+    ],
+    next: "first_message"
+  },
+
+  // --- SCENE 2: THE FIRST MESSAGE ---
+  {
+    id: "first_message",
+    bg: `
+    ~~~~~ MS TEAMS ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     _______________________
+    |  🦈  Lara          .  |
+    |  ─────────────────  |
+    |  hey. you ok?      |
+    |                     |
+    |  🥷  Dobby          |
+    |  ─────────────────  |
+    |  ...yeah. why?     |
+    |                     |
+    |  🦈  Lara          .  |
+    |  ─────────────────  |
+    |  you sound off.     |
+    |  talk to me.        |
+     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "You don't know why you messaged him. Maybe it was late. Maybe you were lonely. Maybe you just... wanted to." },
+      { speaker: "Narrator", text: "He responded. Shy. Awkward. But he stayed. And the more you talked, the more you didn't want to stop." },
+      { speaker: "Narrator", text: "Until the sun came up. And something between you changed. Something you couldn't take back." },
+    ],
+    next: "the_distress"
+  },
+
+  // --- SCENE 3: THE DISTRESS ---
+  {
+    id: "the_distress",
+    bg: `
+    .  SOMETHING IS WRONG  .  .
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     ~  ~  ~  ~  ~  ~  ~  ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    *    .        .       .
+      .        *       .  *
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "You were going through something. Something heavy. The kind of heavy that makes you stare at your ceiling at 3 AM." },
+      { speaker: "Narrator", text: "And he... he stayed. He didn't try to fix it. He didn't give advice. He just... stayed. Kept you company in the dark." },
+      { speaker: "Narrator", text: "That night, something shifted. A spark. Small. Quiet. But unmistakable." },
+    ],
+    next: "the_confession"
+  },
+
+  // --- SCENE 4: THE CONFESSION ---
+  {
+    id: "the_confession",
+    bg: `
+    ~~~~~ THE CONFESSION ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .    *    .    *    .
+      .    . * .    .  *
+    .    *    .    *    .
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "It was him. He was the one who said it first. Because that's who he is — he feels deeply, even when he can't say it right." },
+      { speaker: "Dobby", text: "I don't know how to say this without sounding weird. But... you're different. You make the bad days less bad. You make me feel like I'm not just... this." },
+      { speaker: "Dobby", text: "You're special. And I don't think you know that. But I do. I've known it since that night." },
+      { speaker: "Narrator", text: "You didn't respond right away. But you didn't need to. He already knew. And so did you." },
+    ],
+    next: "the_decision"
+  },
+
+  // --- SCENE 5: SEPTEMBER 28, 2024 ---
+  {
+    id: "the_decision",
+    bg: `
+    ~~~ SEPTEMBER 28, 2024 ~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     _______________________
+    |                     |
+    |   IT'S OFFICIAL.     |
+    |                     |
+    |   🥷  +  🦈  =  ♥   |
+    |                     |
+    |   You're a Swiftie. |
+    |   Taylor covered    |
+    |   'September.'       |
+    |   It felt like a    |
+    |   sign.             |
+    |                     |
+     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "September 28, 2024. A Saturday. You decided. No big gesture. No dramatic confession. Just two people choosing each other." },
+      { speaker: "Narrator", text: "It was September. And you — you're a Swiftie. Taylor Swift covered 'September.' It felt like a sign." },
+      { speaker: "Narrator", text: "He was shy. Low self-esteem. Broke. But he was yours. And you were his. And that... that was enough." },
+    ],
+    next: "the_meet"
+  },
+
+  // --- SCENE 6: THE MEET ---
+  {
+    id: "the_meet",
+    bg: `
+    ~~~~~ MRT GMA KAMUNING ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |  |    |  |    |  |    |
+    |  |    |  |    |  |    |
+    |__|____|__|____|__|____|
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ~  nervous  ~  excited ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "You pushed him to meet. For months. He kept saying 'not yet' — too shy, too insecure, too scared." },
+      { speaker: "Narrator", text: "But you pushed. And pushed. And finally... he showed up." },
+      { speaker: "Narrator", text: "MRT GMA Kamuning station. You traveled from Paranaque to Bulacan. He waited for you at the station." },
+      { speaker: "Narrator", text: "You ate Jollibee at Kamuning. Then headed home to Bulacan. Where you spent a few days together before you went back." },
+      { speaker: "Narrator", text: "And the moment you saw him, every fear melted. Because he was real. And he was nervous. And he was yours." },
+    ],
+    next: "two_years"
+  },
+
+  // --- SCENE 7: TWO YEARS ---
+  {
+    id: "two_years",
+    bg: `
+    ~~~ TWO YEARS TOGETHER ~~~
+
+    [UPS]            [DOWNS]
+    . * . * .         ~ ~ ~ ~ ~
+     ~ ~ ~ ~ ~       *  .  *  .
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    [GROWING]        [TOGETHER]
+    🍂 * 🍂 . *      ♥  .  ♥  .  ♥
+     ~ ~ ~ ~ ~       ~ ~ ~ ~ ~ ~ ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "Two years. Ups and downs. The kind of ups that make you believe in forever. The kind of downs that make you hold on tighter." },
+      { speaker: "Narrator", text: "You fought. You laughed. You cried. You grew. Together." },
+      { speaker: "Narrator", text: "And somewhere in between, you built something real. Something that doesn't need labels or validation. Something that just... is." },
+    ],
+    next: "the_pets"
+  },
+
+  // --- SCENE 8: THE PETS ---
+  {
+    id: "the_pets",
+    bg: `
+    ~~~~~ THE FURRY FAMILY ~~~~~
+
+    🐹 Yay    🐹 Poro    🐹 Porkchop
+    🐹 Pudding  🐹 Peanut  🐹 Snow
+    🐰 Bambi (you hate him now)
+    🐕 small pups (rehomed)
+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     ~  chaos  ~  love  ~  joy  ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "Then came the guinea pigs. Yay. Poro. Porkchop. Pudding. Peanut. Snow. Six little chaos machines." },
+      { speaker: "Narrator", text: "And Bambi. The bunny. Who you loved once. And now... tolerates. From a distance. With side-eye." },
+      { speaker: "Narrator", text: "There were also small pups — rehomed, loved, and sent to their forever families. But the main squad? They're here to stay." },
+      { speaker: "Narrator", text: "They're family. All of them. Even Bambi. Especially Bambi." },
+    ],
+    next: "the_staycation"
+  },
+
+  // --- SCENE 9: THE STAYCATION ---
+  {
+    id: "the_staycation",
+    bg: `
+    ~~~~~ NEXT MONTH ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     _______________________
+    |                     |
+    |   STAYCATION TIME   |
+    |                     |
+    |   Within Bulacan or |
+    |   Paranaque.        |
+    |   Accessible by     |
+    |   train.            |
+    |                     |
+    |   Where to go?      |
+    |   What to do?       |
+    |                     |
+     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "Next month. A staycation. Just the two of them. No work. No stress. No BPO. Just... them." },
+      { speaker: "Narrator", text: "Somewhere within Bulacan or Paranaque. Somewhere you can reach by train. Somewhere in between is fine." },
+      { speaker: "Narrator", text: "And the question is: where do you go? What do you do?" },
+    ],
+    choices: [
+      { text: "A cozy bed & breakfast in Bulacan", next: "bulacan_bnb", affection: 3 },
+      { text: "A beach day in Paranaque", next: "paranaque_beach", affection: 3 },
+      { text: "A food trip — just eat and walk around", next: "food_trip", affection: 2 },
+      { text: "A spa day for yourself", next: "spa_day", affection: 4 },
+    ]
+  },
+
+  // --- SCENE 9A: BULACAN B&B ---
+  {
+    id: "bulacan_bnb",
+    bg: `
+    ~~~~~ BULACAN B&B ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .    *    .    *    .
+      .    . * .    .  *
+    .    *    .    *    .
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    [ cool breeze · quiet mornings ]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "A cozy bed & breakfast in Bulacan. Cool breeze. Quiet mornings. A view that makes you forget the world exists." },
+      { speaker: "Narrator", text: "You wake up late. You eat breakfast slowly. You talk about nothing and everything. And for the first time in months, you both breathe." },
+    ],
+    next: "ending"
+  },
+
+  // --- SCENE 9B: PARANAQUE BEACH ---
+  {
+    id: "paranaque_beach",
+    bg: `
+    ~~~~~ PARANAQUE BEACH ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~^^~~~~~  ~~~~~^^~~~~~
+    ~  ~  ~  ~  ~  ~  ~  ~  ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    [ sand · sun · sea ]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "A beach day in Paranaque. Sand between your toes. Sun on your skin. The sea doing what it's always done — being endless and beautiful and free." },
+      { speaker: "Narrator", text: "You swim. You eat. You sleep on the beach. You watch the sunset and don't say anything because nothing needs to be said." },
+    ],
+    next: "ending"
+  },
+
+  // --- SCENE 9C: FOOD TRIP ---
+  {
+    id: "food_trip",
+    bg: `
+    ~~~~~ FOOD TRIP ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |  |    |  |    |  |    |
+    |  |    |  |    |  |    |
+    |__|____|__|____|__|____|
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    [ eat · walk · eat · repeat ]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "A food trip. No plan. No schedule. Just eat and walk and eat and repeat. The best kind of day." },
+      { speaker: "Narrator", text: "You try everything. You laugh at nothing. You hold hands between bites. And you think: this. This is the good stuff." },
+    ],
+    next: "ending"
+  },
+
+  // --- SCENE 9D: SPA DAY ---
+  {
+    id: "spa_day",
+    bg: `
+    ~~~~~ SPA DAY ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    .    *    .    *    .
+      .    . * .    .  *
+    .    *    .    *    .
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    [ rest · relax · recharge ]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "A spa day. For yourself. Because you deserve it. Because you've been carrying the world and it's okay to put it down for a day." },
+      { speaker: "Narrator", text: "Massage. Silence. Warm towels. And the realization that you don't have to be strong every single second." },
+      { speaker: "Narrator", text: "He's there too. Quiet. Supportive. Holding your bag. Being him. Being yours." },
+    ],
+    next: "ending"
+  },
+
+  // --- SCENE 10: THE END ---
+  {
+    id: "ending",
+    bg: `
+    ♥ ♥ ♥  THE END  ♥ ♥ ♥
+
+    a story written in stars
+    and MS Teams messages
+    and six guinea pigs
+    and one bunny
+    and two years
+    and one staycation
+
+    every choice was right
+    because every choice
+    led here
+
+    ♥
+
+    made with love
+    for the girl who pushed him to meet
+`,
+    lines: [
+      { speaker: "Narrator", text: "Thank you for playing. Thank you for being her. Thank you for being you." },
+      { speaker: "Narrator", text: "Now go — the real story is waiting." },
+    ],
+    next: null
+  }
+];
+
+// ============================================================
+//  PARTICLES
+// ============================================================
+
+function initParticles() {
+  const canvas = document.getElementById('particles');
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  Game.particleCtx = canvas.getContext('2d');
+
+  const colors = ['#ff6b9d', '#ffe066', '#ff9dc0', '#fff', '#ffd4e5'];
+  Game.particles = [];
+
+  for (let i = 0; i < 25; i++) {
+    Game.particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 0.5,
+      speedY: -(Math.random() * 0.4 + 0.15),
+      speedX: (Math.random() - 0.5) * 0.25,
+      opacity: Math.random() * 0.4 + 0.1,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+
+  Game.particleInterval = setInterval(updateParticles, 50);
+}
+
+function updateParticles() {
+  if (!Game.particleCtx) return;
+  const canvas = document.getElementById('particles');
+  const ctx = Game.particleCtx;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (const p of Game.particles) {
+    p.y += p.speedY;
+    p.x += p.speedX;
+    p.pulse += 0.02;
+
+    if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+    if (p.x < -5) p.x = canvas.width + 5;
+    if (p.x > canvas.width + 5) p.x = -5;
+
+    const alpha = p.opacity * (0.6 + 0.4 * Math.sin(p.pulse));
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+// ============================================================
+//  ENGINE
+// ============================================================
+
+function startGame() {
+  const titleScreen = document.getElementById('title-screen');
+  titleScreen.style.opacity = '0';
+  setTimeout(() => {
+    titleScreen.style.display = 'none';
+    initParticles();
+    loadScene(0);
+  }, 1000);
+}
+
+function loadScene(sceneIndex) {
+  if (sceneIndex >= story.length) return;
+  Game.currentScene = sceneIndex;
+  Game.currentLine = 0;
+  Game.choicesVisible = false;
+  Game.waitingForContinue = false;
+
+  const scene = story[sceneIndex];
+  document.getElementById('ascii-layer').textContent = scene.bg;
+  showLine();
+}
+
+function showLine() {
+  const scene = story[Game.currentScene];
+  if (!scene || !scene.lines) return;
+
+  if (Game.currentLine >= scene.lines.length) {
+    if (scene.choices) {
+      showChoices();
+    } else if (scene.next) {
+      Game.waitingForContinue = true;
+    } else {
+      Game.waitingForContinue = true;
+    }
+    return;
+  }
+
+  const line = scene.lines[Game.currentLine];
+  typeText(line.speaker, line.text);
+}
+
+function typeText(speaker, text) {
+  Game.typing = true;
+  Game.waitingForContinue = false;
+
+  document.getElementById('speaker').textContent = speaker + ':';
+  const dialogueEl = document.getElementById('dialogue');
+  dialogueEl.textContent = '';
+
+  let i = 0;
+  clearInterval(Game.typeTimer);
+  Game.typeTimer = setInterval(() => {
+    if (i < text.length) {
+      dialogueEl.textContent += text[i];
+      i++;
+    } else {
+      clearInterval(Game.typeTimer);
+      Game.typing = false;
+      Game.waitingForContinue = true;
+    }
+  }, 25);
+}
+
+function showChoices() {
+  const scene = story[Game.currentScene];
+  Game.choicesVisible = true;
+  Game.selectedChoice = 0;
+
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+
+  scene.choices.forEach((choice, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="key-hint">[${i + 1}]</span> ${choice.text}`;
+    btn.onclick = (e) => { e.stopPropagation(); pickChoice(i); };
+    btn.onmouseenter = () => { Game.selectedChoice = i; updateChoiceSelection(); };
+    choicesEl.appendChild(btn);
+  });
+
+  updateChoiceSelection();
+}
+
+function updateChoiceSelection() {
+  document.querySelectorAll('.choice-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === Game.selectedChoice);
+  });
+}
+
+function pickChoice(index) {
+  const scene = story[Game.currentScene];
+  const choice = scene.choices[index];
+  if (!choice) return;
+
+  Game.affection += choice.affection || 0;
+  Game.choicesVisible = false;
+  document.getElementById('choices').innerHTML = '';
+
+  const nextIndex = findSceneIndex(choice.next);
+  if (nextIndex !== -1) {
+    transitionTo(nextIndex);
+  }
+}
+
+function findSceneIndex(sceneId) {
+  return story.findIndex(s => s.id === sceneId);
+}
+
+function transitionTo(sceneIndex) {
+  const fade = document.getElementById('fade-layer');
+  fade.style.opacity = '1';
+
+  setTimeout(() => {
+    loadScene(sceneIndex);
+    fade.style.opacity = '0';
+  }, 650);
+}
+
+function advance() {
+  if (Game.typing) {
+    clearInterval(Game.typeTimer);
+    const scene = story[Game.currentScene];
+    const line = scene.lines[Game.currentLine];
+    document.getElementById('dialogue').textContent = line.text;
+    Game.typing = false;
+    Game.waitingForContinue = true;
+    return;
+  }
+
+  if (!Game.waitingForContinue || Game.choicesVisible) return;
+
+  const scene = story[Game.currentScene];
+  Game.currentLine++;
+  Game.waitingForContinue = false;
+
+  if (Game.currentLine >= scene.lines.length) {
+    if (scene.choices) {
+      showChoices();
+    } else if (scene.next) {
+      const nextIndex = findSceneIndex(scene.next);
+      if (nextIndex !== -1) transitionTo(nextIndex);
+    } else {
+      Game.waitingForContinue = false;
+    }
+  } else {
+    showLine();
+  }
+}
+
+// ============================================================
+//  INPUT — Keyboard + Touch
+// ============================================================
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' || e.code === 'Enter') {
+    e.preventDefault();
+    advance();
+  }
+
+  if (Game.choicesVisible) {
+    if (e.code === 'ArrowUp' || e.code === 'KeyW') {
+      e.preventDefault();
+      Game.selectedChoice = Math.max(0, Game.selectedChoice - 1);
+      updateChoiceSelection();
+    }
+    if (e.code === 'ArrowDown' || e.code === 'KeyS') {
+      e.preventDefault();
+      const scene = story[Game.currentScene];
+      Game.selectedChoice = Math.min(scene.choices.length - 1, Game.selectedChoice + 1);
+      updateChoiceSelection();
+    }
+    if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3' || e.code === 'Digit4') {
+      const idx = parseInt(e.code.replace('Digit', '')) - 1;
+      pickChoice(idx);
+    }
+  }
+});
+
+// Touch and click support
+let touchStartY = 0;
+let touchStartX = 0;
+
+document.getElementById('screen').addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+document.getElementById('screen').addEventListener('touchend', (e) => {
+  const touchEndY = e.changedTouches[0].clientY;
+  const touchEndX = e.changedTouches[0].clientX;
+  const diffY = touchEndY - touchStartY;
+  const diffX = touchEndX - touchStartX;
+
+  // Swipe detection
+  if (Math.abs(diffY) > 50 && Math.abs(diffY) > Math.abs(diffX)) {
+    if (diffY < 0 && Game.choicesVisible) {
+      // Swipe up
+      Game.selectedChoice = Math.max(0, Game.selectedChoice - 1);
+      updateChoiceSelection();
+    } else if (diffY > 0 && Game.choicesVisible) {
+      // Swipe down
+      const scene = story[Game.currentScene];
+      Game.selectedChoice = Math.min(scene.choices.length - 1, Game.selectedChoice + 1);
+      updateChoiceSelection();
+    }
+  } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+    // Tap
+    if (!Game.choicesVisible) {
+      advance();
+    }
+  }
+}, { passive: true });
+
+document.getElementById('screen').addEventListener('click', (e) => {
+  if (!Game.choicesVisible && e.target.tagName !== 'BUTTON') {
+    advance();
+  }
+});
+</script>
+</body>
+</html>

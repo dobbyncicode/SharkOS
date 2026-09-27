@@ -83,8 +83,27 @@ document.addEventListener('DOMContentLoaded', () => {
       if (app.id === 'game') return renderGameWindow(app);
       if (app.id === 'letter') return renderLetterWindow(app);
       if (app.id === 'reasons') return renderReasonsWindow(app);
+      if (app.id === 'story') return renderStoryWindow(app);
       return '';
     }).join('');
+  }
+
+  function renderStoryWindow(app) {
+    return `
+      <div class="window" id="${app.id}" style="width: 90vw; height: 85vh; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div class="window-header" data-drag="${app.id}">
+          <div class="window-controls">
+            <div class="window-btn close" data-action="close" data-target="${app.id}"></div>
+            <div class="window-btn minimize" data-action="minimize" data-target="${app.id}"></div>
+            <div class="window-btn maximize" data-action="maximize" data-target="${app.id}"></div>
+          </div>
+          <span class="window-title">${app.icon} ${app.label}</span>
+        </div>
+        <div class="window-content" style="padding: 0; overflow: hidden;">
+          <iframe src="story.html" style="width: 100%; height: 100%; border: none; background: #0a0a0a;"></iframe>
+        </div>
+      </div>
+    `;
   }
 
   function renderReasonsWindow(app) {

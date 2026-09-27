@@ -21,7 +21,8 @@
     { "id": "reasons", "label": "Reasons Why I Love You", "icon": "💌", "menu": "love" },
     { "id": "game", "label": "Heart-eating Shark", "icon": "🎮", "menu": "love" },
     { "id": "letter", "label": "Love Letter", "icon": "🦈", "menu": "love" },
-    { "id": "music", "label": "Our Playlist", "icon": "🎵", "menu": "love" }
+    { "id": "music", "label": "Our Playlist", "icon": "🎵", "menu": "love" },
+    { "id": "story", "label": "Our Story", "icon": "📖", "menu": "love" }
   ],
   "theme": {
     "colors": {
