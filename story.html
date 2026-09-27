@@ -363,12 +363,18 @@ const act1 = [
   {
     id: "the_logout",
     bg: `
-    .  SOMETHING IS WRONG  .  .
+    ~~~~~ THE ALL-NIGHTER ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     ~  ~  ~  ~  ~  ~  ~  ~
+    |   logged out     3am |
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    *    .        .       .
-      .        *       .  *
+            *      *
+        .            *      .
+       *        .         *
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+           .   |   .
+         .     |     .
+       ~~~~~~~~~~~~~~~
+            sunrise
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
@@ -529,7 +535,7 @@ const act2 = [
       { speaker: "Narrator", text: "There were also guinea pig pups — rehomed, loved, and sent to their forever families. But the main squad? They are here to stay." },
       { speaker: "Narrator", text: "They are family. All of them. Even Bambi. Especially Bambi." },
     ],
-    next: "act3"
+    next: "staycation"
   }
 ];
 
@@ -898,7 +904,7 @@ function pickChoice(index) {
 
   Game.finalChoice = choice.text;
 
-  const nextIndex = findSceneIndex(choice.next);
+  const nextIndex = resolveNext(choice.next, Game.currentScene);
   if (nextIndex !== -1) {
     transitionTo(nextIndex);
   }
@@ -906,6 +912,19 @@ function pickChoice(index) {
 
 function findSceneIndex(sceneId) {
   return story.findIndex(s => s.id === sceneId);
+}
+
+// Safety net: if a scene's `next` id does not exist in the story, fall back to
+// the following scene in the array instead of silently stalling the whole story.
+function resolveNext(sceneId, fromIndex) {
+  const found = findSceneIndex(sceneId);
+  if (found !== -1) return found;
+  if (fromIndex != null && story[fromIndex + 1]) {
+    console.warn('[story] broken link "' + sceneId + '" after "' + story[fromIndex].id +
+                 '" — falling back to "' + story[fromIndex + 1].id + '"');
+    return fromIndex + 1;
+  }
+  return -1;
 }
 
 function transitionTo(sceneIndex) {
@@ -939,7 +958,7 @@ function advance() {
     if (scene.choices) {
       showChoices();
     } else if (scene.next) {
-      const nextIndex = findSceneIndex(scene.next);
+      const nextIndex = resolveNext(scene.next, Game.currentScene);
       if (nextIndex !== -1) transitionTo(nextIndex);
     } else {
       Game.waitingForContinue = false;
