@@ -206,7 +206,7 @@
     font-size: 14px;
     white-space: pre;
     line-height: 1;
-    opacity: 0.6;
+    opacity: 0.5;
   }
 
   /* Mobile */
@@ -261,9 +261,9 @@
 <body>
 <div id="screen">
   <div id="title-screen">
-    <h1>♥ Our Story ♥</h1>
+    <h1>Our Story</h1>
     <div class="subtitle">based on true events with artistic elements</div>
-    <button id="start-btn" onclick="startGame()">▶ Begin</button>
+    <button id="start-btn" onclick="startGame()">Begin</button>
   </div>
 
   <canvas id="particles"></canvas>
@@ -274,16 +274,15 @@
     <div id="dialogue"></div>
   </div>
   <div id="choices"></div>
-  <div id="continue-hint">tap / space to continue ▸</div>
+  <div id="continue-hint">tap / space to continue</div>
   <div id="fade-layer"></div>
 </div>
 
 <script>
 // ============================================================
-//  OUR STORY — An Interactive ASCII Love Story
+//  OUR STORY
+//  A three-act interactive ASCII love story
 //  Based on true events with artistic elements
-//  Any resemblance to real people is entirely coincidental.
-//  (But also not. We know. Shh.)
 // ============================================================
 
 const Game = {
@@ -302,40 +301,13 @@ const Game = {
 };
 
 // ============================================================
-//  GUINEA PIG ASCII ART
+//  ACT I — THE SPARK
+//  A casual message. A bad night. A choice to stay.
 // ============================================================
 
-const guineaPig = [
-  "  _  _  _  _  _  _  ",
-  " ( )( )( )( )( )( ) ",
-  "  V  V  V  V  V  V  ",
-  "   \\  \\  \\  \\  \\    ",
-  "    \\  \\  \\  \\  \\  ",
-  "     \\__/  \\__/  \\__"
-];
-
-const guineaPigSimple = [
-  "   _  _  _  ",
-  "  ( )( )( ) ",
-  "   V  V  V  "
-];
-
-const bunny = [
-  "   \\   /   ",
-  "    \\ /    ",
-  "    ( )    ",
-  "   (   )   ",
-  "  (     )  "
-];
-
-// ============================================================
-//  STORY DATA
-// ============================================================
-
-const story = [
-  // --- SCENE 1: THE BPO ---
+const act1 = [
   {
-    id: "bpo",
+    id: "bpo_night",
     bg: `
     ~~~~~ THE BPO ~~~~~
     .    *  .        .  *  .
@@ -349,31 +321,28 @@ const story = [
    *        .    .      *
 `,
     lines: [
-      { speaker: "Narrator", text: "It's a Tuesday night. The BPO is alive with dial tones and hold music. Different sides of the same LOB — he's on his PC at home, she's on-site." },
-      { speaker: "Narrator", text: "He works from home — outbound dialer specialist. She's on-site — technical support, part-time, because she's also a nursing student." },
-      { speaker: "Narrator", text: "Different shifts. Different desks. Different sides of the same building, even if one of them is just a laptop and a quiet room." },
-      { speaker: "Narrator", text: "You've seen him around the team channels. Quiet. Shy. Kind of cute, if you're being honest. Tonight, something is different." },
+      { speaker: "Narrator", text: "Tuesday. 11:47 PM. The BPO hums with dial tones and hold music. Two people, same company, different worlds. He is on his PC at home. She is on-site, nursing student by day, tech support by night." },
+      { speaker: "Narrator", text: "They have never really talked. A nod in the hallway. A 'hi' in the team channel. That is all." },
+      { speaker: "Narrator", text: "Until tonight." },
     ],
     next: "first_message"
   },
-
-  // --- SCENE 2: THE FIRST MESSAGE ---
   {
     id: "first_message",
     bg: `
     ~~~~~ MS TEAMS ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
      _______________________
-    |  🦈  Her           .  |
+    |  Her              .  |
     |  ─────────────────  |
     |  what do you think  |
     |  of this?          |
     |                     |
-    |  🥷  Him            |
+    |  Him               |
     |  ─────────────────  |
     |  of what? lol       |
     |                     |
-    |  🦈  Her           .  |
+    |  Her              .  |
     |  ─────────────────  |
     |  [sends a random   |
     |   work thing]      |
@@ -384,18 +353,15 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A casual message. 'What do you think of this?' Nothing deep. Just... a conversation starter. The kind you send when you're bored and his name is the first one you see." },
-      { speaker: "Narrator", text: "He responds. Shy. A little awkward. 'Of what? lol' — the kind of response that makes you smile because it's so... him." },
-      { speaker: "Narrator", text: "But then the conversation shifts. Something in her tone changes. And before you know it, she's not okay." },
-      { speaker: "Narrator", text: "He sees it. He doesn't think twice. He logs out of work — leaves his dialer, his shift, his metrics — to keep her company. For a few moments. That turn into hours." },
-      { speaker: "Narrator", text: "You talked. And talked. And talked. Until the sun came up. And something between you changed. Something you couldn't take back." },
+      { speaker: "Narrator", text: "A casual message. 'What do you think of this?' Nothing deep. Just a conversation starter. The kind you send when you are bored and his name is the first one you see." },
+      { speaker: "Narrator", text: "He responds. Shy. A little awkward. 'Of what? lol' — the kind of response that makes you smile because it is so... him." },
+      { speaker: "Narrator", text: "You talk about work. Then about nothing. Then about everything. The conversation flows like it has been waiting to happen." },
+      { speaker: "Narrator", text: "But somewhere between the jokes and the silence, something shifts. You are not okay. And he can feel it." },
     ],
-    next: "the_distress"
+    next: "the_logout"
   },
-
-  // --- SCENE 3: THE DISTRESS ---
   {
-    id: "the_distress",
+    id: "the_logout",
     bg: `
     .  SOMETHING IS WRONG  .  .
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -406,16 +372,23 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "She was going through something. Something heavy. The kind of heavy that makes you stare at your ceiling at 3 AM and wonder if anyone would notice if you just... disappeared for a while." },
-      { speaker: "Narrator", text: "And he... he stayed. He didn't try to fix it. He didn't give advice. He just... stayed. Kept her company in the dark." },
-      { speaker: "Narrator", text: "That night, something shifted. A spark. Small. Quiet. But unmistakable." },
+      { speaker: "Narrator", text: "You are going through something. Something heavy. The kind of heavy that makes you stare at your ceiling at 3 AM and wonder if anyone would notice if you just... disappeared for a while." },
+      { speaker: "Narrator", text: "He sees it. He does not ask. He does not push. He just... logs out of work. Leaves his dialer, his shift, his metrics. To keep you company." },
+      { speaker: "Narrator", text: "For a few moments. That turn into hours. That turn into the sun coming up." },
+      { speaker: "Narrator", text: "You talked. And talked. And talked. And somewhere in the dark, something sparked. Something small. Something quiet. Something that would not go back to being nothing." },
     ],
-    next: "the_confession"
-  },
+    next: "act2"
+  }
+];
 
-  // --- SCENE 4: THE CONFESSION ---
+// ============================================================
+//  ACT II — THE CHOICE
+//  A confession. A decision. A first meeting.
+// ============================================================
+
+const act2 = [
   {
-    id: "the_confession",
+    id: "confession",
     bg: `
     ~~~~~ THE CONFESSION ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -425,17 +398,15 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "It was him. He was the one who said it first. Because that's who he is — he feels deeply, even when he can't say it right." },
-      { speaker: "Him", text: "I don't know how to say this without sounding weird. But... you're different. You make the bad days less bad. You make me feel like I'm not just... this." },
-      { speaker: "Him", text: "You're special. And I don't think you know that. But I do. I've known it since that night." },
-      { speaker: "Narrator", text: "You didn't respond right away. But you didn't need to. He already knew. And so did you." },
+      { speaker: "Narrator", text: "It was him. He was the one who said it first. Because that is who he is — he feels deeply, even when he cannot say it right." },
+      { speaker: "Him", text: "I don't know how to say this without sounding weird. But... you are different. You make the bad days less bad. You make me feel like I am not just... this." },
+      { speaker: "Him", text: "You are special. And I do not think you know that. But I do. I have known it since that night." },
+      { speaker: "Narrator", text: "You did not respond right away. But you did not need to. He already knew. And so did you." },
     ],
-    next: "the_decision"
+    next: "september"
   },
-
-  // --- SCENE 5: SEPTEMBER 28, 2024 ---
   {
-    id: "the_decision",
+    id: "september",
     bg: `
     ~~~ SEPTEMBER 28, 2024 ~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -443,7 +414,7 @@ const story = [
     |                     |
     |   IT'S OFFICIAL.     |
     |                     |
-    |   🥷  +  🦈  =  ♥   |
+    |   Him  +  Her  =    |
     |                     |
     |   You're a Swiftie. |
     |   Taylor covered    |
@@ -456,15 +427,42 @@ const story = [
 `,
     lines: [
       { speaker: "Narrator", text: "September 28, 2024. A Saturday. You decided. No big gesture. No dramatic confession. Just two people choosing each other." },
-      { speaker: "Narrator", text: "It was September. And you — you're a Swiftie. Taylor Swift covered 'September.' It felt like a sign." },
-      { speaker: "Narrator", text: "He was shy. Low self-esteem. Broke. But he was yours. And you were his. And that... that was enough." },
+      { speaker: "Narrator", text: "It was September. And you — you are a Swiftie. Taylor Swift covered 'September.' It felt like a sign." },
+      { speaker: "Narrator", text: "He was shy. Low self-esteem. Broke. A breadwinner carrying the weight of everyone else's dreams. But he was yours. And you were his. And that... that was enough." },
     ],
-    next: "the_meet"
+    next: "the_push"
   },
-
-  // --- SCENE 6: THE MEET ---
   {
-    id: "the_meet",
+    id: "the_push",
+    bg: `
+    ~~~~~ THE PUSH ~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     _______________________
+    |                     |
+    |  Her: "We should   |
+    |   meet. For real."  |
+    |                     |
+    |  Him: "Not yet.    |
+    |   I'm not ready."   |
+    |                     |
+    |  Her: "When will   |
+    |   you be ready?"    |
+    |                     |
+    |  Him: "...I don't  |
+    |   know."            |
+    |                     |
+     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+`,
+    lines: [
+      { speaker: "Narrator", text: "You pushed him to meet. For months. He kept saying 'not yet' — too shy, too insecure, too scared of ruining something beautiful." },
+      { speaker: "Narrator", text: "But you pushed. And pushed. And pushed. Because you knew. You knew this was real. And you were not going to let fear win." },
+      { speaker: "Narrator", text: "And finally... he showed up." },
+    ],
+    next: "kamuning"
+  },
+  {
+    id: "kamuning",
     bg: `
     ~~~~~ MRT GMA KAMUNING ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -476,16 +474,12 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "You pushed him to meet. For months. He kept saying 'not yet' — too shy, too insecure, too scared." },
-      { speaker: "Narrator", text: "But you pushed. And pushed. And finally... he showed up." },
-      { speaker: "Narrator", text: "MRT GMA Kamuning station. You traveled from Paranaque to Bulacan. He waited for you at the station." },
+      { speaker: "Narrator", text: "MRT GMA Kamuning station. You traveled from Paranaque to Bulacan. He waited for you at the station. Hands in his pockets. Heart in his throat." },
       { speaker: "Narrator", text: "You ate Jollibee at Kamuning. Then headed home to Bulacan. Where you spent a few days together before you went back." },
       { speaker: "Narrator", text: "And the moment you saw him, every fear melted. Because he was real. And he was nervous. And he was yours." },
     ],
     next: "two_years"
   },
-
-  // --- SCENE 7: TWO YEARS ---
   {
     id: "two_years",
     bg: `
@@ -497,7 +491,7 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     [GROWING]        [TOGETHER]
-    🍂 * 🍂 . *      ♥  .  ♥  .  ♥
+    . * . * .        ♥  .  ♥  .  ♥
      ~ ~ ~ ~ ~       ~ ~ ~ ~ ~ ~ ~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
@@ -505,12 +499,10 @@ const story = [
       { speaker: "Narrator", text: "Two years. Ups and downs. The kind of ups that make you believe in forever. The kind of downs that make you hold on tighter." },
       { speaker: "Narrator", text: "She finished nursing. Became an RN. He kept dialing. You both kept choosing each other." },
       { speaker: "Narrator", text: "You fought. You laughed. You cried. You grew. Together." },
-      { speaker: "Narrator", text: "And somewhere in between, you built something real. Something that doesn't need labels or validation. Something that just... is." },
+      { speaker: "Narrator", text: "And somewhere in between, you built something real. Something that does not need labels or validation. Something that just... is." },
     ],
     next: "the_pets"
   },
-
-  // --- SCENE 8: THE PETS ---
   {
     id: "the_pets",
     bg: `
@@ -519,9 +511,9 @@ const story = [
        _  _  _  _  _  _
       ( )( )( )( )( )( )
        V  V  V  V  V  V
-        \\  \\  \\  \\  \\
-         \\  \\  \\  \\  \\
-          \\__/  \\__/  \\__
+        \  \  \  \  \
+         \  \  \  \  \
+          \__/  \__/  \__
 
     Poro  Porkchop  Peanut
     Snow  Pudding   Bambi (bunny)
@@ -534,15 +526,21 @@ const story = [
     lines: [
       { speaker: "Narrator", text: "Then came the guinea pigs. Poro. Porkchop. Peanut. Snow. Pudding. Five little chaos machines." },
       { speaker: "Narrator", text: "And Bambi. The bunny. Who you loved once. And now... tolerates. From a distance. With side-eye." },
-      { speaker: "Narrator", text: "There were also guinea pig pups — rehomed, loved, and sent to their forever families. But the main squad? They're here to stay." },
-      { speaker: "Narrator", text: "They're family. All of them. Even Bambi. Especially Bambi." },
+      { speaker: "Narrator", text: "There were also guinea pig pups — rehomed, loved, and sent to their forever families. But the main squad? They are here to stay." },
+      { speaker: "Narrator", text: "They are family. All of them. Even Bambi. Especially Bambi." },
     ],
-    next: "the_staycation"
-  },
+    next: "act3"
+  }
+];
 
-  // --- SCENE 9: THE STAYCATION ---
+// ============================================================
+//  ACT III — THE FUTURE
+//  A staycation. A choice. A story still being written.
+// ============================================================
+
+const act3 = [
   {
-    id: "the_staycation",
+    id: "staycation",
     bg: `
     ~~~~~ NEXT MONTH ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -575,8 +573,6 @@ const story = [
       { text: "A spa day — you deserve it, RN or not", next: "spa_day", affection: 4 },
     ]
   },
-
-  // --- SCENE 9A: MANILA HOTEL ---
   {
     id: "manila_hotel",
     bg: `
@@ -593,12 +589,10 @@ const story = [
       { speaker: "Narrator", text: "A hotel in Manila. Bed. Breakfast. And absolutely nothing on the agenda. No alarms. No schedules. No dial tones." },
       { speaker: "Narrator", text: "You wake up late. You eat slowly. You talk about nothing and everything. And for the first time in months, you both breathe." },
       { speaker: "Narrator", text: "You spend the day in bed, ordering room service, watching bad TV, and remembering why you chose this person in the first place." },
-      { speaker: "Narrator", text: "It's not fancy. It's not instagrammable. It's just... perfect." },
+      { speaker: "Narrator", text: "It is not fancy. It is not instagrammable. It is just... perfect." },
     ],
     next: "ending"
   },
-
-  // --- SCENE 9B: STAY HOME ---
   {
     id: "stay_home",
     bg: `
@@ -612,14 +606,12 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "Stay home. Just the two of you. Nowhere to be. Nothing to do. Just the quiet comfort of a space that's yours." },
+      { speaker: "Narrator", text: "Stay home. Just the two of you. Nowhere to be. Nothing to do. Just the quiet comfort of a space that is yours." },
       { speaker: "Narrator", text: "You cook together. You watch movies. You argue over what to watch. You make up. You exist." },
       { speaker: "Narrator", text: "The guinea pigs run around. Bambi judges from the corner. And you think: this. This is the good stuff." },
     ],
     next: "ending"
   },
-
-  // --- SCENE 9C: SPA DAY ---
   {
     id: "spa_day",
     bg: `
@@ -633,19 +625,17 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A spa day. For yourself. Because you deserve it. Because you've been carrying the world — nursing school, work, life — and it's okay to put it down for a day." },
-      { speaker: "Narrator", text: "Massage. Silence. Warm towels. And the realization that you don't have to be strong every single second." },
-      { speaker: "Narrator", text: "He's there too. Quiet. Supportive. Holding your bag. Being him. Being yours." },
-      { speaker: "Narrator", text: "You feel guilty at first. Then you don't. Because he tells you — in his shy, awkward way — that you deserve to be taken care of too." },
+      { speaker: "Narrator", text: "A spa day. For yourself. Because you deserve it. Because you have been carrying the world — nursing school, work, life — and it is okay to put it down for a day." },
+      { speaker: "Narrator", text: "Massage. Silence. Warm towels. And the realization that you do not have to be strong every single second." },
+      { speaker: "Narrator", text: "He is there too. Quiet. Supportive. Holding your bag. Being him. Being yours." },
+      { speaker: "Narrator", text: "You feel guilty at first. Then you do not. Because he tells you — in his shy, awkward way — that you deserve to be taken care of too." },
     ],
     next: "ending"
   },
-
-  // --- SCENE 10: THE END ---
   {
     id: "ending",
     bg: `
-    ♥ ♥ ♥  THE END  ♥ ♥ ♥
+    THE END
 
     a story written in stars
     and MS Teams messages
@@ -657,8 +647,6 @@ const story = [
     every choice was right
     because every choice
     led here
-
-    ♥
 
     based on true events
     with artistic elements
@@ -676,6 +664,9 @@ const story = [
     next: null
   }
 ];
+
+// Combine all acts
+const story = [...act1, ...act2, ...act3];
 
 // ============================================================
 //  PARTICLES
@@ -735,10 +726,33 @@ function updateParticles() {
 //  PETS — ASCII art that appears on frames
 // ============================================================
 
+const guineaPigArt = [
+  "  _  _  _  ",
+  " ( )( )( ) ",
+  "  V  V  V  "
+];
+
+const guineaPigFull = [
+  "   _  _  _  _  _  _  ",
+  "  ( )( )( )( )( )( ) ",
+  "   V  V  V  V  V  V  ",
+  "    \\  \\  \\  \\  \\    ",
+  "     \\  \\  \\  \\  \\  ",
+  "      \\__/  \\__/  \\__"
+];
+
+const bunnyArt = [
+  "   \\   /   ",
+  "    \\ /    ",
+  "    ( )    ",
+  "   (   )   ",
+  "  (     )  "
+];
+
 const petArt = [
-  { name: "guinea pig", art: guineaPigSimple },
-  { name: "guinea pig", art: guineaPig },
-  { name: "bunny", art: bunny }
+  { name: "guinea pig", art: guineaPigArt },
+  { name: "guinea pig", art: guineaPigFull },
+  { name: "bunny", art: bunnyArt }
 ];
 
 function spawnPet() {
@@ -844,7 +858,7 @@ function typeText(speaker, text) {
       Game.typing = false;
       Game.waitingForContinue = true;
     }
-  }, 25);
+  }, 22);
 }
 
 function showChoices() {
