@@ -206,11 +206,16 @@ body {
   text-align: center;
   color: var(--text);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-  line-height: 1.2;
-  max-width: 68px;
+  line-height: 1.25;
+  max-width: 78px;
+  /* the name is the only clue what the app is, so give it two lines
+     instead of clipping it behind an ellipsis */
+  white-space: normal;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* ============================================================
@@ -970,7 +975,12 @@ body {
 
   .dsk-icon { width: 56px; padding: 6px 4px; }
   .dsk-icon-img { width: 36px; height: 36px; font-size: 22px; border-radius: 10px; }
-  .dsk-icon-label { font-size: 9px; }
+  /* on phones the name is the only clue what the app is, so let it wrap
+     instead of eating 8 characters behind an ellipsis */
+  .dsk-icon-label {
+    font-size: 9px;
+    max-width: 64px;
+  }
 
   #clock-widget {
     padding: 12px;
