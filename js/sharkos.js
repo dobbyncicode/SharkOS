@@ -10,6 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const openWindows = new Set();
   let config = {};
 
+  // Changelog modal
+  const changelogModal = document.getElementById('changelog-modal');
+  const changelogDismiss = document.getElementById('changelog-dismiss');
+  const changelogDontShow = document.getElementById('changelog-dontshow');
+
+  if (sessionStorage.getItem('sharkos-changelog-dismissed') === 'true') {
+    changelogModal.classList.add('hidden');
+  }
+
+  changelogDismiss.addEventListener('click', () => {
+    if (changelogDontShow.checked) {
+      sessionStorage.setItem('sharkos-changelog-dismissed', 'true');
+    }
+    changelogModal.classList.add('hidden');
+  });
+
   fetch('config.json')
     .then(res => res.json())
     .then(data => {
