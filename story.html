@@ -193,6 +193,21 @@
     pointer-events: none;
   }
 
+  #pet-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .pet {
+    position: absolute;
+    font-size: 24px;
+    transition: left 3s linear, top 3s linear;
+    opacity: 0.7;
+  }
+
   /* Mobile */
   @media (max-width: 600px) {
     #screen {
@@ -235,6 +250,10 @@
       padding: 16px 32px;
       font-size: clamp(16px, 5vw, 22px);
     }
+
+    .pet {
+      font-size: 18px;
+    }
   }
 </style>
 </head>
@@ -242,11 +261,12 @@
 <div id="screen">
   <div id="title-screen">
     <h1>♥ Our Story ♥</h1>
-    <div class="subtitle">a story told in stars and text</div>
+    <div class="subtitle">based on true events with artistic elements</div>
     <button id="start-btn" onclick="startGame()">▶ Begin</button>
   </div>
 
   <canvas id="particles"></canvas>
+  <div id="pet-overlay"></div>
   <pre id="ascii-layer"></pre>
   <div id="text-layer">
     <div id="speaker"></div>
@@ -260,8 +280,9 @@
 <script>
 // ============================================================
 //  OUR STORY — An Interactive ASCII Love Story
-//  For Dobby & Lara
-//  You play as her.
+//  Based on true events with artistic elements
+//  Any resemblance to real people is entirely coincidental.
+//  (But also not. We know. Shh.)
 // ============================================================
 
 const Game = {
@@ -275,7 +296,8 @@ const Game = {
   affection: 0,
   particles: [],
   particleCtx: null,
-  particleInterval: null
+  particleInterval: null,
+  petInterval: null
 };
 
 // ============================================================
@@ -299,9 +321,10 @@ const story = [
    *        .    .      *
 `,
     lines: [
-      { speaker: "Narrator", text: "It's a Tuesday night. The BPO is quiet — just the hum of fans and the clatter of keyboards. Everyone's on their headsets, pretending to care about metrics." },
-      { speaker: "Narrator", text: "You're both on the same team. Different shifts, different desks. You've seen him around. Quiet. Shy. Kind of cute, if you're being honest." },
-      { speaker: "Narrator", text: "Tonight, something is different. Tonight, you're not okay. And for some reason, you want him to know." },
+      { speaker: "Narrator", text: "It's a Tuesday night. The BPO is alive with the sound of dial tones and hold music. Different sides of the same LOB — he's home, she's on-site." },
+      { speaker: "Narrator", text: "He works from home — outbound dialer specialist. She's on-site — technical support, part-time, because she's also a nursing student." },
+      { speaker: "Narrator", text: "Different shifts. Different desks. Different sides of the same building, even if one of them is just a laptop and a quiet room." },
+      { speaker: "Narrator", text: "You've seen him around the team channels. Quiet. Shy. Kind of cute, if you're being honest. Tonight, something is different." },
     ],
     next: "first_message"
   },
@@ -313,25 +336,31 @@ const story = [
     ~~~~~ MS TEAMS ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
      _______________________
-    |  🦈  Lara          .  |
+    |  🦈  Her           .  |
     |  ─────────────────  |
-    |  hey. you ok?      |
+    |  what do you think  |
+    |  of this?          |
     |                     |
-    |  🥷  Dobby          |
+    |  🥷  Him            |
     |  ─────────────────  |
-    |  ...yeah. why?     |
+    |  of what? lol       |
     |                     |
-    |  🦈  Lara          .  |
+    |  🦈  Her           .  |
     |  ─────────────────  |
-    |  you sound off.     |
-    |  talk to me.        |
+    |  [sends a random   |
+    |   work thing]      |
+    |                     |
+    |  just thought you'd |
+    |  have a take        |
      ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "You don't know why you messaged him. Maybe it was late. Maybe you were lonely. Maybe you just... wanted to." },
-      { speaker: "Narrator", text: "He responded. Shy. Awkward. But he stayed. And the more you talked, the more you didn't want to stop." },
-      { speaker: "Narrator", text: "Until the sun came up. And something between you changed. Something you couldn't take back." },
+      { speaker: "Narrator", text: "A casual message. 'What do you think of this?' Nothing deep. Just... a conversation starter. The kind you send when you're bored and his name is the first one you see." },
+      { speaker: "Narrator", text: "He responds. Shy. A little awkward. 'Of what? lol' — the kind of response that makes you smile because it's so... him." },
+      { speaker: "Narrator", text: "But then the conversation shifts. Something in her tone changes. And before you know it, she's not okay." },
+      { speaker: "Narrator", text: "And he... he logs out of work. Just like that. Leaves his shift, his dialer, his metrics — to keep her company. For a few moments. That turn into hours." },
+      { speaker: "Narrator", text: "You talked. And talked. And talked. Until the sun came up. And something between you changed. Something you couldn't take back." },
     ],
     next: "the_distress"
   },
@@ -349,8 +378,8 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "You were going through something. Something heavy. The kind of heavy that makes you stare at your ceiling at 3 AM." },
-      { speaker: "Narrator", text: "And he... he stayed. He didn't try to fix it. He didn't give advice. He just... stayed. Kept you company in the dark." },
+      { speaker: "Narrator", text: "She was going through something. Something heavy. The kind of heavy that makes you stare at your ceiling at 3 AM and wonder if anyone would notice if you just... disappeared for a while." },
+      { speaker: "Narrator", text: "And he... he stayed. He didn't try to fix it. He didn't give advice. He just... stayed. Kept her company in the dark." },
       { speaker: "Narrator", text: "That night, something shifted. A spark. Small. Quiet. But unmistakable." },
     ],
     next: "the_confession"
@@ -369,8 +398,8 @@ const story = [
 `,
     lines: [
       { speaker: "Narrator", text: "It was him. He was the one who said it first. Because that's who he is — he feels deeply, even when he can't say it right." },
-      { speaker: "Dobby", text: "I don't know how to say this without sounding weird. But... you're different. You make the bad days less bad. You make me feel like I'm not just... this." },
-      { speaker: "Dobby", text: "You're special. And I don't think you know that. But I do. I've known it since that night." },
+      { speaker: "Him", text: "I don't know how to say this without sounding weird. But... you're different. You make the bad days less bad. You make me feel like I'm not just... this." },
+      { speaker: "Him", text: "You're special. And I don't think you know that. But I do. I've known it since that night." },
       { speaker: "Narrator", text: "You didn't respond right away. But you didn't need to. He already knew. And so did you." },
     ],
     next: "the_decision"
@@ -446,6 +475,7 @@ const story = [
 `,
     lines: [
       { speaker: "Narrator", text: "Two years. Ups and downs. The kind of ups that make you believe in forever. The kind of downs that make you hold on tighter." },
+      { speaker: "Narrator", text: "She finished nursing. Became an RN. He kept dialing. You both kept choosing each other." },
       { speaker: "Narrator", text: "You fought. You laughed. You cried. You grew. Together." },
       { speaker: "Narrator", text: "And somewhere in between, you built something real. Something that doesn't need labels or validation. Something that just... is." },
     ],
@@ -458,8 +488,8 @@ const story = [
     bg: `
     ~~~~~ THE FURRY FAMILY ~~~~~
 
-    🐹 Yay    🐹 Poro    🐹 Porkchop
-    🐹 Pudding  🐹 Peanut  🐹 Snow
+    🐹 Poro  🐹 Porkchop  🐹 Peanut
+    🐹 Snow  🐹 Pudding
     🐰 Bambi (you hate him now)
     🐕 small pups (rehomed)
 
@@ -468,7 +498,7 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "Then came the guinea pigs. Yay. Poro. Porkchop. Pudding. Peanut. Snow. Six little chaos machines." },
+      { speaker: "Narrator", text: "Then came the guinea pigs. Poro. Porkchop. Peanut. Snow. Pudding. Five little chaos machines." },
       { speaker: "Narrator", text: "And Bambi. The bunny. Who you loved once. And now... tolerates. From a distance. With side-eye." },
       { speaker: "Narrator", text: "There were also small pups — rehomed, loved, and sent to their forever families. But the main squad? They're here to stay." },
       { speaker: "Narrator", text: "They're family. All of them. Even Bambi. Especially Bambi." },
@@ -503,73 +533,56 @@ const story = [
       { speaker: "Narrator", text: "And the question is: where do you go? What do you do?" },
     ],
     choices: [
-      { text: "A cozy bed & breakfast in Bulacan", next: "bulacan_bnb", affection: 3 },
-      { text: "A beach day in Paranaque", next: "paranaque_beach", affection: 3 },
-      { text: "A food trip — just eat and walk around", next: "food_trip", affection: 2 },
-      { text: "A spa day for yourself", next: "spa_day", affection: 4 },
+      { text: "A hotel in Bulacan — bed, breakfast, and doing nothing", next: "bulacan_hotel", affection: 3 },
+      { text: "A hotel in Paranaque — sleep, food, and a long walk", next: "paranaque_hotel", affection: 3 },
+      { text: "A spa day — you deserve it, RN or not", next: "spa_day", affection: 4 },
     ]
   },
 
-  // --- SCENE 9A: BULACAN B&B ---
+  // --- SCENE 9A: BULACAN HOTEL ---
   {
-    id: "bulacan_bnb",
+    id: "bulacan_hotel",
     bg: `
-    ~~~~~ BULACAN B&B ~~~~~
+    ~~~~~ BULACAN HOTEL ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
     .    *    .    *    .
       .    . * .    .  *
     .    *    .    *    .
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [ cool breeze · quiet mornings ]
+    [ bed · breakfast · nothing ]
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A cozy bed & breakfast in Bulacan. Cool breeze. Quiet mornings. A view that makes you forget the world exists." },
-      { speaker: "Narrator", text: "You wake up late. You eat breakfast slowly. You talk about nothing and everything. And for the first time in months, you both breathe." },
+      { speaker: "Narrator", text: "A hotel in Bulacan. Bed. Breakfast. And absolutely nothing on the agenda. No alarms. No schedules. No dial tones." },
+      { speaker: "Narrator", text: "You wake up late. You eat slowly. You talk about nothing and everything. And for the first time in months, you both breathe." },
+      { speaker: "Narrator", text: "You spend the day in bed, ordering room service, watching bad TV, and remembering why you chose this person in the first place." },
+      { speaker: "Narrator", text: "It's not fancy. It's not instagrammable. It's just... perfect." },
     ],
     next: "ending"
   },
 
-  // --- SCENE 9B: PARANAQUE BEACH ---
+  // --- SCENE 9B: PARANAQUE HOTEL ---
   {
-    id: "paranaque_beach",
+    id: "paranaque_hotel",
     bg: `
-    ~~~~~ PARANAQUE BEACH ~~~~~
+    ~~~~~ PARANAQUE HOTEL ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
     ~~~~~^^~~~~~  ~~~~~^^~~~~~
     ~  ~  ~  ~  ~  ~  ~  ~  ~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [ sand · sun · sea ]
+    [ sleep · food · long walk ]
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A beach day in Paranaque. Sand between your toes. Sun on your skin. The sea doing what it's always done — being endless and beautiful and free." },
-      { speaker: "Narrator", text: "You swim. You eat. You sleep on the beach. You watch the sunset and don't say anything because nothing needs to be said." },
+      { speaker: "Narrator", text: "A hotel in Paranaque. Sleep. Food. And a long walk around the neighborhood where you grew up." },
+      { speaker: "Narrator", text: "You show him your old spots. The corner store. The street you used to play in. The school you hated. All of it." },
+      { speaker: "Narrator", text: "He listens. He asks questions. He holds your hand and doesn't let go, even when you point at the embarrassing places." },
+      { speaker: "Narrator", text: "You eat at a local place. You talk about nothing. You walk until your feet hurt. And you think: this. This is the good stuff." },
     ],
     next: "ending"
   },
 
-  // --- SCENE 9C: FOOD TRIP ---
-  {
-    id: "food_trip",
-    bg: `
-    ~~~~~ FOOD TRIP ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    |  |    |  |    |  |    |
-    |  |    |  |    |  |    |
-    |__|____|__|____|__|____|
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [ eat · walk · eat · repeat ]
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-`,
-    lines: [
-      { speaker: "Narrator", text: "A food trip. No plan. No schedule. Just eat and walk and eat and repeat. The best kind of day." },
-      { speaker: "Narrator", text: "You try everything. You laugh at nothing. You hold hands between bites. And you think: this. This is the good stuff." },
-    ],
-    next: "ending"
-  },
-
-  // --- SCENE 9D: SPA DAY ---
+  // --- SCENE 9C: SPA DAY ---
   {
     id: "spa_day",
     bg: `
@@ -583,9 +596,10 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A spa day. For yourself. Because you deserve it. Because you've been carrying the world and it's okay to put it down for a day." },
+      { speaker: "Narrator", text: "A spa day. For yourself. Because you deserve it. Because you've been carrying the world — nursing school, work, life — and it's okay to put it down for a day." },
       { speaker: "Narrator", text: "Massage. Silence. Warm towels. And the realization that you don't have to be strong every single second." },
       { speaker: "Narrator", text: "He's there too. Quiet. Supportive. Holding your bag. Being him. Being yours." },
+      { speaker: "Narrator", text: "You feel guilty at first. Then you don't. Because he tells you — in his shy, awkward way — that you deserve to be taken care of too." },
     ],
     next: "ending"
   },
@@ -598,7 +612,7 @@ const story = [
 
     a story written in stars
     and MS Teams messages
-    and six guinea pigs
+    and five guinea pigs
     and one bunny
     and two years
     and one staycation
@@ -609,12 +623,18 @@ const story = [
 
     ♥
 
-    made with love
-    for the girl who pushed him to meet
+    based on true events
+    with artistic elements
+    any resemblance to real
+    people is entirely
+    coincidental
+    (but also not)
+    we know
+    shh
 `,
     lines: [
-      { speaker: "Narrator", text: "Thank you for playing. Thank you for being her. Thank you for being you." },
-      { speaker: "Narrator", text: "Now go — the real story is waiting." },
+      { speaker: "Narrator", text: "Thank you for playing. Thank you for being part of this story." },
+      { speaker: "Narrator", text: "Now go — the real one is still being written." },
     ],
     next: null
   }
@@ -675,6 +695,56 @@ function updateParticles() {
 }
 
 // ============================================================
+//  PETS — running across the screen
+// ============================================================
+
+const pets = ['🐹', '🐹', '🐹', '🐹', '🐹', '🐰'];
+const petNames = ['Poro', 'Porkchop', 'Peanut', 'Snow', 'Pudding', 'Bambi'];
+
+function spawnPet() {
+  const overlay = document.getElementById('pet-overlay');
+  if (!overlay) return;
+
+  const pet = document.createElement('div');
+  pet.className = 'pet';
+  const petIndex = Math.floor(Math.random() * pets.length);
+  pet.textContent = pets[petIndex];
+  pet.title = petNames[petIndex];
+
+  const startX = Math.random() > 0.5 ? -30 : overlay.offsetWidth + 30;
+  const startY = Math.random() * (overlay.offsetHeight - 40) + 10;
+  const endX = startX < 0 ? overlay.offsetWidth + 30 : -30;
+
+  pet.style.left = startX + 'px';
+  pet.style.top = startY + 'px';
+
+  overlay.appendChild(pet);
+
+  // Animate
+  setTimeout(() => {
+    pet.style.left = endX + 'px';
+    pet.style.top = (Math.random() * (overlay.offsetHeight - 40) + 10) + 'px';
+  }, 50);
+
+  // Remove after animation
+  setTimeout(() => {
+    pet.remove();
+  }, 3500);
+}
+
+function initPets() {
+  // Spawn a pet every few seconds
+  Game.petInterval = setInterval(() => {
+    if (Math.random() > 0.4) {
+      spawnPet();
+    }
+  }, 2500);
+
+  // Spawn one immediately
+  setTimeout(spawnPet, 1000);
+}
+
+// ============================================================
 //  ENGINE
 // ============================================================
 
@@ -684,6 +754,7 @@ function startGame() {
   setTimeout(() => {
     titleScreen.style.display = 'none';
     initParticles();
+    initPets();
     loadScene(0);
   }, 1000);
 }
@@ -776,6 +847,9 @@ function pickChoice(index) {
   Game.choicesVisible = false;
   document.getElementById('choices').innerHTML = '';
 
+  // Store the choice for "him" to find
+  Game.finalChoice = choice.text;
+
   const nextIndex = findSceneIndex(choice.next);
   if (nextIndex !== -1) {
     transitionTo(nextIndex);
@@ -820,11 +894,45 @@ function advance() {
       const nextIndex = findSceneIndex(scene.next);
       if (nextIndex !== -1) transitionTo(nextIndex);
     } else {
+      // Story ended — show a subtle "notification" for him
       Game.waitingForContinue = false;
+      showSecretMessage();
     }
   } else {
     showLine();
   }
+}
+
+// ============================================================
+//  SECRET MESSAGE — for him to find
+// ============================================================
+
+function showSecretMessage() {
+  const overlay = document.getElementById('pet-overlay');
+  const msg = document.createElement('div');
+  msg.style.cssText = `
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 107, 157, 0.15);
+    border: 1px solid rgba(255, 107, 157, 0.3);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #ff9dc0;
+    font-family: 'VT323', monospace;
+    pointer-events: none;
+    animation: pulse 2s ease-in-out infinite;
+  `;
+  msg.innerHTML = `📧 She picked: <strong>${Game.finalChoice || 'somewhere in particular'}</strong>`;
+  overlay.appendChild(msg);
+
+  setTimeout(() => { msg.style.opacity = '0'; msg.style.transition = 'opacity 1s'; }, 8000);
+  setTimeout(() => { msg.remove(); }, 9500);
+}
+
+function pulse() {
+  // CSS animation placeholder
 }
 
 // ============================================================
@@ -849,14 +957,13 @@ document.addEventListener('keydown', (e) => {
       Game.selectedChoice = Math.min(scene.choices.length - 1, Game.selectedChoice + 1);
       updateChoiceSelection();
     }
-    if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3' || e.code === 'Digit4') {
+    if (e.code === 'Digit1' || e.code === 'Digit2' || e.code === 'Digit3') {
       const idx = parseInt(e.code.replace('Digit', '')) - 1;
       pickChoice(idx);
     }
   }
 });
 
-// Touch and click support
 let touchStartY = 0;
 let touchStartX = 0;
 
@@ -871,20 +978,16 @@ document.getElementById('screen').addEventListener('touchend', (e) => {
   const diffY = touchEndY - touchStartY;
   const diffX = touchEndX - touchStartX;
 
-  // Swipe detection
   if (Math.abs(diffY) > 50 && Math.abs(diffY) > Math.abs(diffX)) {
     if (diffY < 0 && Game.choicesVisible) {
-      // Swipe up
       Game.selectedChoice = Math.max(0, Game.selectedChoice - 1);
       updateChoiceSelection();
     } else if (diffY > 0 && Game.choicesVisible) {
-      // Swipe down
       const scene = story[Game.currentScene];
       Game.selectedChoice = Math.min(scene.choices.length - 1, Game.selectedChoice + 1);
       updateChoiceSelection();
     }
   } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
-    // Tap
     if (!Game.choicesVisible) {
       advance();
     }
