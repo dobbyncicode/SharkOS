@@ -305,83 +305,95 @@ const Game = {
 //  A casual message. A bad night. A choice to stay.
 // ============================================================
 
+// ============================================================
+//  ACT I — THE SPARK
+//  She opens the door. He stays.
+// ============================================================
+
 const act1 = [
   {
     id: "bpo_night",
     bg: `
-    ~~~~~ THE BPO ~~~~~
-    .    *  .        .  *  .
-  .  NIGHT SHIFT  .    *    .
+    ~        THE BPO        ~
     ~~~~~~~~~~~~~~~~~~~~~~~~~
-     ___||___________||___
-    |   |  []  []  |   |___
-    |   |  []  []  |   |__.
-    |___|__________|___|
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   *        .    .      *
+    .*..*....*..*...*...*..*.
+    ....*...*..*...*..*...*..
+    .*..*....*..*...*...*..*.
+    +-----------------------+
+    |   []  []  []          |
+    |   []  []  []          |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    ....*...*..*...*..*...*..
 `,
+
     lines: [
-      { speaker: "Narrator", text: "Tuesday. 11:47 PM. The BPO hums with dial tones and hold music. Two people, same company, different worlds. He is on his PC at home — outbound dialer specialist. She is on-site — tech support, part-time, because she is also a nursing student." },
-      { speaker: "Narrator", text: "They have never really talked. A nod in the hallway. A 'hi' in the team channel. That is all." },
-      { speaker: "Narrator", text: "Until tonight." },
+      { speaker: "Narrator", text: "Eleven forty-seven on a Tuesday. The BPO hums its own small weather — hold music, dial tones, the low static of people pretending their headsets are rooms." },
+      { speaker: "Narrator", text: "You are on-site. Tech support, part-time, slotted between nursing classes. He is four towns away at his own desk in Bulacan, an outbound dialer specialist, spending eight hours a day being hung up on by strangers." },
+      { speaker: "Narrator", text: "Same company. Same logo on the lanyard. The closest thing either of you has to a friendship is a 'hi' in the team channel and a thumbs-up nobody has ever explained." },
+      { speaker: "Narrator", text: "Tonight, you decide to be the one who breaks it." }
     ],
     next: "first_message"
   },
   {
     id: "first_message",
     bg: `
-    ~~~~~ MS TEAMS ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     _______________________
-    |  Her              .  |
-    |  ─────────────────  |
-    |  what do you think  |
-    |  of this?          |
-    |                     |
-    |  Him               |
-    |  ─────────────────  |
-    |  of what? lol       |
-    |                     |
-    |  Her              .  |
-    |  ─────────────────  |
-    |  [sends a random   |
-    |   work thing]      |
-    |                     |
-    |  just thought you'd |
-    |  have a take        |
-     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~     MS TEAMS 11PM     ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    | Her                .  |
+    | --------------------- |
+    | what do you think     |
+    | of this?              |
+    |                       |
+    | Him                   |
+    | --------------------- |
+    | of what lol           |
+    |                       |
+    | Her                .  |
+    | --------------------- |
+    | [screenshot]        . |
+    | be serious            |
+    |                       |
+    | typing...           . |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "A casual message. 'What do you think of this?' Nothing deep. Just a conversation starter. The kind you send when you are bored and his name is the first one you see." },
-      { speaker: "Narrator", text: "He responds. Shy. A little awkward. 'Of what? lol' — the kind of response that makes you smile because it is so... him." },
-      { speaker: "Narrator", text: "You talk about work. Then about nothing. Then about everything. The conversation flows like it has been waiting to happen." },
-      { speaker: "Narrator", text: "But somewhere between the jokes and the silence, something shifts. You are not okay. And he can feel it." },
+      { speaker: "Narrator", text: "You open MS Teams because you need to say something to a human who is not being paid to be kind to you." },
+      { speaker: "Narrator", text: "'What do you think of this?' you type. Nothing heavy. A screenshot. A half-formed opinion. The kind of message you send when you want a door to open, not a conversation." },
+      { speaker: "Narrator", text: "It takes him four minutes. 'of what lol' — and something about that 'lol' makes you laugh out loud in an office you have been quietly drowning in for months." },
+      { speaker: "Narrator", text: "So you send another. And another. Somewhere around message nine the screenshot stops mattering. By message forty you are telling him things you have not told anyone." }
     ],
     next: "the_logout"
   },
   {
     id: "the_logout",
     bg: `
-    ~~~~~ THE ALL-NIGHTER ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    |   logged out     3am |
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-            *      *
-        .            *      .
-       *        .         *
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-           .   |   .
-         .     |     .
-       ~~~~~~~~~~~~~~~
-            sunrise
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~    THE ALL-NIGHTER    ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    *...*....*...*..*...*..*.
+    ....*...*..*...*....*..* 
+    ..*...*....*...*..*...*..
+    +-----------------------+
+    | he closes the         |
+    | dialer at 12:04       |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+              .   |   .      
+            .     |     .    
+          ~~~~~~~~~~~~~~~    
+               sunrise       
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "You are going through something. Something heavy. The kind of heavy that makes you stare at your ceiling at 3 AM and wonder if anyone would notice if you just... disappeared for a while." },
-      { speaker: "Narrator", text: "He sees it. He does not ask. He does not push. He just... logs out of work. Leaves his dialer, his shift, his metrics. To keep you company." },
-      { speaker: "Narrator", text: "For a few moments. That turn into hours. That turn into the sun coming up." },
-      { speaker: "Narrator", text: "You talked. And talked. And talked. And somewhere in the dark, something sparked. Something small. Something quiet. Something that would not go back to being nothing." },
+      { speaker: "Narrator", text: "Somewhere past midnight you say the thing you have been circling all evening. Not all of it. Just enough that he would know." },
+      { speaker: "Narrator", text: "He does not ask what you mean. He does not offer advice, or a solution, or a single piece of advice anyone else would have given you. He just closes his dialer, logs out of his shift, and stays." },
+      { speaker: "Narrator", text: "You find out much later that he was on a streak. That his supervisor needed him. That he chose you over a number on a dashboard, and has never once mentioned it." },
+      { speaker: "Narrator", text: "You talked. And talked. And talked. And somewhere in the dark, something sparked — small, and quiet, and impossible to pretend was nothing." },
+      { speaker: "Narrator", text: "Toward morning he said goodnight. The sun was already up. Neither of you wanted to be the first one to hang up." }
     ],
     next: "confession"
   }
@@ -389,151 +401,162 @@ const act1 = [
 
 // ============================================================
 //  ACT II — THE CHOICE
-//  A confession. A decision. A first meeting.
+//  She asks. He answers. She sets the date.
 // ============================================================
 
 const act2 = [
   {
     id: "confession",
     bg: `
-    ~~~~~ THE CONFESSION ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .    *    .    *    .
-      .    . * .    .  *
-    .    *    .    *    .
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~    THE CONFESSION     ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    .    *    .    *    .    
+      .    . * .    .  *     
+    .    *    .    *    .    
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    | say it.               |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "It was him. He was the one who said it first. Because that is who he is — he feels deeply, even when he cannot say it right." },
-      { speaker: "Him", text: "I don't know how to say this without sounding weird. But... you are different. You make the bad days less bad. You make me feel like I am not just... this." },
-      { speaker: "Him", text: "You are special. And I do not think you know that. But I do. I have known it since that night." },
-      { speaker: "Narrator", text: "You did not respond right away. But you did not need to. He already knew. And so did you." },
+      { speaker: "Narrator", text: "It could have ended there. You could have let it stay a nice thing that happened at midnight, and gone to work, and never mentioned it again." },
+      { speaker: "Narrator", text: "You did not." },
+      { speaker: "Her", text: "You keep almost saying it. Say it." },
+      { speaker: "Narrator", text: "He says he is not going to. He is lying. You both know he is lying, and you wait him out the way you wait out a patient who does not want the news yet." },
+      { speaker: "Him", text: "I don't know how to say this without sounding weird. But you're the only good part of my day. I close my dialer early and you're the reason I don't mind. That's it. That's the whole thing." },
+      { speaker: "Narrator", text: "He says it badly and fast, like a man stepping off a ledge. Then he goes quiet, and waits for you to decide whether to catch him." },
+      { speaker: "Narrator", text: "You catch him." }
     ],
     next: "september"
   },
   {
     id: "september",
     bg: `
-    ~~~ SEPTEMBER 28, 2024 ~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     _______________________
-    |                     |
-    |   IT'S OFFICIAL.     |
-    |                     |
-    |   Him  +  Her  =    |
-    |                     |
-    |   You're a Swiftie. |
-    |   Taylor covered    |
-    |   'September.'       |
-    |   It felt like a    |
-    |   sign.             |
-    |                     |
-     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~  SEPTEMBER 28, 2024   ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    |                       |
+    |    IT'S OFFICIAL.     |
+    |                       |
+    |    a saturday         |
+    |    a date you set     |
+    |    and he said yes    |
+    |    before you         |
+    |    finished the       |
+    |    sentence           |
+    |                       |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "September 28, 2024. A Saturday. You decided. No big gesture. No dramatic confession. Just two people choosing each other." },
-      { speaker: "Narrator", text: "It was September. And you — you are a Swiftie. Taylor Swift covered 'September.' It felt like a sign." },
-      { speaker: "Narrator", text: "He was shy. Low self-esteem. Broke. A breadwinner carrying the weight of everyone else's dreams. But he was yours. And you were his. And that... that was enough." },
+      { speaker: "Narrator", text: "September 28, 2024. A Saturday. You pick the date, because if you leave it to him he will wait another year out of pure politeness." },
+      { speaker: "Narrator", text: "You tell him you are not going to be a secret. He says okay. He says it far too fast, the way people do when they are afraid of being believed." },
+      { speaker: "Narrator", text: "You are a Swiftie. Taylor covered 'September' — the one about friends turning into something else. You told him it felt like a sign. He thought you were being ridiculous." },
+      { speaker: "Narrator", text: "He also thought it every single day after." },
+      { speaker: "Narrator", text: "He was shy, and broke, and certain he was not enough. You were stubborn, and certain, and right. That is the entire mechanic of this relationship." }
     ],
     next: "the_push"
   },
   {
     id: "the_push",
     bg: `
-    ~~~~~ THE PUSH ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     _______________________
-    |                     |
-    |  Her: "We should   |
-    |   meet. For real."  |
-    |                     |
-    |  Him: "Not yet.    |
-    |   I'm not ready."   |
-    |                     |
-    |  Her: "When will   |
-    |   you be ready?"    |
-    |                     |
-    |  Him: "...I don't  |
-    |   know."            |
-    |                     |
-     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~     THE LONG PUSH     ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    | Her                   |
+    | we should meet        |
+    |                       |
+    | Him                   |
+    | not yet               |
+    |                       |
+    | Her                   |
+    | when                  |
+    |                       |
+    | Him                   |
+    | i don't know          |
+    |                       |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "You pushed him to meet. For months. He kept saying 'not yet' — too shy, too insecure, too scared of ruining something beautiful." },
-      { speaker: "Narrator", text: "But you pushed. And pushed. And pushed. Because you knew. You knew this was real. And you were not going to let fear win." },
-      { speaker: "Narrator", text: "And finally... he showed up." },
+      { speaker: "Narrator", text: "For months you ask to meet. For months he says not yet — too shy, too broke, too certain that being looked at directly will ruin the only good thing he has." },
+      { speaker: "Narrator", text: "He has an entire vocabulary for not yet. He is fluent in it. He can say it in four languages, and none of them are the one you are waiting for." },
+      { speaker: "Narrator", text: "You do not argue. You just ask again the next day. And the next. Until asking stops being a request and becomes the shape your week takes." },
+      { speaker: "Narrator", text: "He stops saying no. He starts saying 'when'. Then one Tuesday he simply sends a time." }
     ],
     next: "kamuning"
   },
   {
     id: "kamuning",
     bg: `
-    ~~~~~ MRT GMA KAMUNING ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    |  |    |  |    |  |    |
-    |  |    |  |    |  |    |
-    |__|____|__|____|__|____|
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-      ~  nervous  ~  excited ~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~     GMA KAMUNING      ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+      |    |  |    |  |      
+    __|____|__|____|__|___   
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+         both of you early   
+         neither admits it   
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "MRT GMA Kamuning station. You traveled from Paranaque to Bulacan. He waited for you at the station. Hands in his pockets. Heart in his throat." },
-      { speaker: "Narrator", text: "You ate Jollibee at Kamuning. Then headed home to Bulacan. Where you spent a few days together before you went back." },
-      { speaker: "Narrator", text: "And the moment you saw him, every fear melted. Because he was real. And he was nervous. And he was yours." },
+      { speaker: "Narrator", text: "GMA Kamuning station. You ride the MRT up from Paranaque. He rides out from Bulacan. For eleven weeks this was impossible, and then one Tuesday it is only a train ride." },
+      { speaker: "Narrator", text: "You get there first. So does he. You both stand on opposite sides of the same platform pretending you did not both come early, and did not both check your phone eleven times." },
+      { speaker: "Narrator", text: "He is wearing the shirt he thought about for an hour. You are holding a bag you packed absolutely nothing interesting into. Neither of you says anything for about four seconds." },
+      { speaker: "Narrator", text: "Then you eat Jollibee, because one of you has to go first, and Jollibee was the easy part. After that you go to Bulacan, and you stay a few days, and it stops being a story you are reading." }
     ],
     next: "two_years"
   },
   {
     id: "two_years",
     bg: `
-    ~~~ TWO YEARS TOGETHER ~~~
-
-    [UPS]            [DOWNS]
-    . * . * .         ~ ~ ~ ~ ~
-     ~ ~ ~ ~ ~       *  .  *  .
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    [GROWING]        [TOGETHER]
-    . * . * .        ♥  .  ♥  .  ♥
-     ~ ~ ~ ~ ~       ~ ~ ~ ~ ~ ~ ~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~    TWO YEARS LATER    ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+        ups      downs       
+      . * . * .  ~ ~ ~ ~ ~   
+       ~ ~ ~ ~ ~  *  .  *  . 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+     late nights guinea pigs 
+    *  *  *  *  _  _  _  _   
+     .  .  .  .  ( )( )( )   
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+      still here             
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "Two years. Ups and downs. The kind of ups that make you believe in forever. The kind of downs that make you hold on tighter." },
-      { speaker: "Narrator", text: "She finished nursing. Became an RN. He kept dialing. You both kept choosing each other." },
-      { speaker: "Narrator", text: "You fought. You laughed. You cried. You grew. Together." },
-      { speaker: "Narrator", text: "And somewhere in between, you built something real. Something that does not need labels or validation. Something that just... is." },
+      { speaker: "Narrator", text: "Two years. Give or take a day — you are both terrible at math about this." },
+      { speaker: "Narrator", text: "You finished nursing. You are an RN now, on your own two feet, in a building that runs on your particular kind of tired. He is still dialing, still hanging up, still closing the laptop early." },
+      { speaker: "Narrator", text: "There were ups. There were downs that had you both reaching for the same sentence at 2 AM. You fought about the dishes, and about nothing, and about the dishes again. You made up badly and quickly and kept going." },
+      { speaker: "Narrator", text: "And somewhere in the middle of all of it you got so good at each other that leaving would take more effort than staying." }
     ],
     next: "the_pets"
   },
   {
     id: "the_pets",
     bg: `
-    ~~~~~ THE FURRY FAMILY ~~~~~
-
-       _  _  _  _  _  _
-      ( )( )( )( )( )( )
-       V  V  V  V  V  V
-        \  \  \  \  \
-         \  \  \  \  \
-          \__/  \__/  \__
-
-    Poro  Porkchop  Peanut
-    Snow  Pudding   Bambi (bunny)
-    guinea pig pups (rehomed)
-
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     ~  chaos  ~  love  ~  joy  ~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~    THE GUINEA PIGS    ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+          _  _  _  _  _  _   
+         ( )( )( )( )( )( )  
+          V  V  V  V  V  V   
+           \  \  \  \  \     
+            \  \  \  \  \    
+             \__/  \__/  \__ 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+         chaos   love   hay  
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "Then came the guinea pigs. Poro. Porkchop. Peanut. Snow. Pudding. Five little chaos machines." },
-      { speaker: "Narrator", text: "And Bambi. The bunny. Who you loved once. And now... tolerates. From a distance. With side-eye." },
-      { speaker: "Narrator", text: "There were also guinea pig pups — rehomed, loved, and sent to their forever families. But the main squad? They are here to stay." },
-      { speaker: "Narrator", text: "They are family. All of them. Even Bambi. Especially Bambi." },
+      { speaker: "Narrator", text: "Then: Poro, Porkchop, Peanut, Snow, Pudding. Five guinea pigs. All of them loud, none of them quiet, one of them permanently plotting." },
+      { speaker: "Narrator", text: "There were pups before them — tiny, loud, and briefly ours. They went off to their own homes with their own names, which is the only way to love something you are not allowed to keep." },
+      { speaker: "Narrator", text: "And Bambi. The bunny. You loved Bambi once. You do not love Bambi now. Bambi knows exactly what it did, and Bambi is not sorry." },
+      { speaker: "Narrator", text: "He sits in the corner of the room with the energy of a colleague you are contractually obliged to greet." }
     ],
     next: "staycation"
   }
@@ -541,136 +564,139 @@ const act2 = [
 
 // ============================================================
 //  ACT III — THE FUTURE
-//  A staycation. A choice. A story still being written.
+//  She decides. Then the story runs out of road.
 // ============================================================
 
 const act3 = [
   {
     id: "staycation",
     bg: `
-    ~~~~~ NEXT MONTH ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     _______________________
-    |                     |
-    |   STAYCATION TIME   |
-    |                     |
-    |   Hotels are away   |
-    |   like Cubao or     |
-    |   somewhere in      |
-    |   Manila.           |
-    |                     |
-    |   Or just stay      |
-    |   home.             |
-    |                     |
-    |   Where to go?      |
-    |   What to do?       |
-    |                     |
-     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~      STAYCATION       ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    |                       |
+    |    two days           |
+    |    no shifts          |
+    |    no dialer          |
+    |    no plans           |
+    |                       |
+    |    you get to pick    |
+    |                       |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "Next month. A staycation. Just the two of them. No work. No stress. No BPO. Just... them." },
-      { speaker: "Narrator", text: "Hotels are away — Cubao, somewhere in Manila. Or just stay home. Both are good. Both are theirs." },
-      { speaker: "Narrator", text: "And the question is: where do you go? What do you do?" },
+      { speaker: "Narrator", text: "Next month. Two days off, booked and blocked out, defended from every coworker who thought they could have you." },
+      { speaker: "Narrator", text: "He offered to plan it. You took the pen, because he would have booked a room next to the terminal and called it a treat." },
+      { speaker: "Narrator", text: "Cubao, if you want a bed and a breakfast neither of you has to make. Home, if you want the couch and the pets and nowhere to be. A spa, if you want somebody else to be responsible for you for a few hours." },
+      { speaker: "Narrator", text: "It is your call. He will pretend to have an opinion, and then agree with whatever you picked." }
     ],
     choices: [
-      { text: "A hotel in Manila - bed, breakfast, and doing nothing", next: "manila_hotel", affection: 3 },
-      { text: "Stay home - just the two of you, nowhere to be", next: "stay_home", affection: 3 },
-      { text: "A spa day - you deserve it, RN or not", next: "spa_day", affection: 4 },
+      { text: "A hotel in Cubao - a bed, breakfast, and nowhere to be", next: "manila_hotel", affection: 3 },
+      { text: "Stay home - the pets, the couch, zero plans", next: "stay_home", affection: 3 },
+      { text: "A spa day - let somebody else take care of you", next: "spa_day", affection: 4 }
     ]
   },
   {
     id: "manila_hotel",
     bg: `
-    ~~~~~ MANILA HOTEL ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .    *    .    *    .
-      .    . * .    .  *
-    .    *    .    *    .
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [ bed · breakfast · nothing ]
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~       THE HOTEL       ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    | bed                   |
+    | breakfast             |
+    | no alarm              |
+    | no dialer             |
+    | no LOB                |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "A hotel in Manila. Bed. Breakfast. And absolutely nothing on the agenda. No alarms. No schedules. No dial tones." },
-      { speaker: "Narrator", text: "You wake up late. You eat slowly. You talk about nothing and everything. And for the first time in months, you both breathe." },
-      { speaker: "Narrator", text: "You spend the day in bed, ordering room service, watching bad TV, and remembering why you chose this person in the first place." },
-      { speaker: "Narrator", text: "It is not fancy. It is not instagrammable. It is just... perfect." },
+      { speaker: "Narrator", text: "A hotel in Cubao. Sheets nobody has to wash. A breakfast neither of you has to cook, in a city neither of you has to commute to." },
+      { speaker: "Narrator", text: "You sleep until your body decides you are done. You eat standing up. You talk about the apartment you are not going to move and the cat you are never going to get." },
+      { speaker: "Narrator", text: "There is a moment around hour six where neither of you reaches for a phone. You both notice it. Neither of you says it out loud." },
+      { speaker: "Narrator", text: "It is not a fancy weekend. It is two adults with nowhere to be, and it is the most expensive nothing either of you has ever bought." }
     ],
     next: "ending"
   },
   {
     id: "stay_home",
     bg: `
-    ~~~~~ HOME SWEET HOME ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     ___||___________||___
-    |   |  []  []  |   |___
-    |   |  []  []  |   |__.
-    |___|__________|___|
-        [ you · him · pets ]
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~       STAY HOME       ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    |   []  []  []          |
+    |   []  []  []          |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+      pets   couch   snacks  
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "Stay home. Just the two of you. Nowhere to be. Nothing to do. Just the quiet comfort of a space that is yours." },
-      { speaker: "Narrator", text: "You cook together. You watch movies. You argue over what to watch. You make up. You exist." },
-      { speaker: "Narrator", text: "The guinea pigs run around. Bambi judges from the corner. And you think: this. This is the good stuff." },
+      { speaker: "Narrator", text: "Home. The herd loses its mind when the door opens, which is the best review this house gets all year." },
+      { speaker: "Narrator", text: "You cook something ambitious and burn it. He orders backup and pretends he always meant to. You eat on the floor, because the table belongs to the guinea pigs now." },
+      { speaker: "Narrator", text: "Bambi stays in the corner. Bambi is always in the corner. Bambi has a system." },
+      { speaker: "Narrator", text: "You fall asleep on the couch at 1 AM with the TV on and someone's hand in yours, and wake at noon under a blanket neither of you remembers putting there." }
     ],
     next: "ending"
   },
   {
     id: "spa_day",
     bg: `
-    ~~~~~ SPA DAY ~~~~~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    .    *    .    *    .
-      .    . * .    .  *
-    .    *    .    *    .
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [ rest · relax · recharge ]
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~        THE SPA        ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    +-----------------------+
+    | quiet                 |
+    | warm towels           |
+    | no laptop             |
+    | no asking how         |
+    | she is feeling        |
+    +-----------------------+
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "A spa day. For yourself. Because you deserve it. Because you have been carrying the world — nursing school, work, life — and it is okay to put it down for a day." },
-      { speaker: "Narrator", text: "Massage. Silence. Warm towels. And the realization that you do not have to be strong every single second." },
-      { speaker: "Narrator", text: "He is there too. Quiet. Supportive. Holding your bag. Being him. Being yours." },
-      { speaker: "Narrator", text: "You feel guilty at first. Then you do not. Because he tells you — in his shy, awkward way — that you deserve to be taken care of too." },
+      { speaker: "Narrator", text: "A spa day. You have spent two years being the one everybody calls, and you have decided to be the one everybody takes care of instead." },
+      { speaker: "Narrator", text: "Three hours of being handled by a stranger, which turns out to be the one thing nobody lets you do at home." },
+      { speaker: "Narrator", text: "He comes with you. He does not make small talk. He holds your bag and checks the room and sits in the chair by the door like a very patient airport escort." },
+      { speaker: "Narrator", text: "You feel guilty for about four minutes. Then you do not — because he is looking at you like you cost him something to look at, and that is a language you only recently learned to read." }
     ],
     next: "ending"
   },
   {
     id: "ending",
     bg: `
-    THE END
-
-    a story written in stars
-    and MS Teams messages
-    and five guinea pigs
-    and one bunny
-    and two years
-    and one staycation
-
-    every choice was right
-    because every choice
-    led here
-
-    based on true events
-    with artistic elements
-    any resemblance to real
-    people is entirely
-    coincidental
-    (but also not)
-    we know
-    shh
+    ~        THE END        ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+                             
+    a story written in stars 
+    and MS Teams messages    
+    and five guinea pigs     
+    and one rabbit nobody    
+    likes very much          
+    and two years            
+    and one staycation       
+    that has not happened yet
+                             
+    every choice was right   
+    because every choice     
+    led here                 
+                             
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    go be off-duty with her  
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
+
     lines: [
-      { speaker: "Narrator", text: "Thank you for playing. Thank you for being part of this story." },
-      { speaker: "Narrator", text: "Now go — the real one is still being written." },
+      { speaker: "Narrator", text: "This is as far as the page goes." },
+      { speaker: "Narrator", text: "The rest of it is still being written, and you are in it — whether you are pressing next or not." }
     ],
     next: null
   }
 ];
-
 // Combine all acts
 const story = [...act1, ...act2, ...act3];
 
