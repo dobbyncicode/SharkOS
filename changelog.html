@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SharkOS 2.0 — Changelog</title>
+  <link rel="stylesheet" href="css/sharkos.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .changelog-container {
+      max-width: 560px;
+      width: 100%;
+      background: var(--glass-bg);
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .changelog-headline {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      text-shadow: 0 0 30px var(--accent-glow);
+    }
+    .changelog-subheadline {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 36px;
+      font-style: italic;
+    }
+    .changelog-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--accent);
+      margin: 0 auto 32px auto;
+      border-radius: 1px;
+      opacity: 0.5;
+    }
+    .changelog-body {
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--text-dim);
+      font-family: 'Courier New', monospace;
+    }
+    .changelog-body p {
+      margin-bottom: 14px;
+    }
+    .changelog-body .clause {
+      margin-bottom: 20px;
+      padding-left: 16px;
+      border-left: 2px solid rgba(255, 255, 255, 0.08);
+    }
+    .changelog-body .clause-title {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .changelog-body .fine-print {
+      font-size: 10px;
+      color: var(--text-faint);
+      margin-top: 24px;
+      font-style: italic;
+    }
+    .changelog-signature {
+      margin-top: 32px;
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .changelog-signature .sig-name {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .changelog-back {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 10px 24px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .changelog-back:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+  </style>
+</head>
+<body>
+  <div class="changelog-container">
+    <div class="changelog-headline">NOTHING! IT IS STILL YOU AFTER THIS MUCH DAYS AND NIGHTS</div>
+    <div class="changelog-subheadline">— the only thing that changed is everything else —</div>
+    <div class="changelog-divider"></div>
+
+    <div class="changelog-body">
+      <div class="clause">
+        <div class="clause-title">Section 1: The OS Has Been Rebuilt</div>
+        <p>WHEREAS the previous iteration of SharkOS (hereinafter referred to as "the old thing") was functional but visually comparable to a Windows 95 screensaver found in a thrift store;</p>
+        <p>WHEREAS the Developer (hereinafter referred to as "the fatass") has spent an unreasonable number of hours rebuilding the entire interface from scratch;</p>
+        <p>NOW, THEREFORE, SharkOS 2.0 is hereby released with a glassmorphism design system, macOS Sonoma layout, and a dock that no longer moves like it's having a seizure.</p>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">Section 2: What Has Changed (Allegedly)</div>
+        <p>(a) The taskbar has been replaced with a menu bar. It is at the top now. Deal with it.</p>
+        <p>(b) A dock has been installed at the bottom. It magnifies when hovered. The Developer insists this is "smooth now" despite initial reports of jankiness.</p>
+        <p>(c) Windows now open in the center of the screen like civilized applications instead of spawning in random locations like feral cats.</p>
+        <p>(d) The wallpaper is a gradient. Not just any gradient. A Sonoma gradient. The Developer would like you to know he spent 45 minutes on it.</p>
+        <p>(e) A clock widget has been added to the desktop. It tells time. That is its whole job. It does it well.</p>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">Section 3: What Has NOT Changed</div>
+        <p>(a) The Reasons Why I Love You app. Still there. Still the same five reasons. The Developer was too lazy to add more.</p>
+        <p>(b) The Heart-eating Shark game. Still impossible. Still eating hearts. Still your fault for missing.</p>
+        <p>(c) The Love Letter. Still in Taglish. Still making the Developer emotional. Still signed "Your fatass."</p>
+        <p>(d) The Playlist. Still four songs. The Developer maintains this is "curated" and not "too lazy to add more."</p>
+        <p>(e) The puzzle gate. Still asks "1 + 2 = ?" The answer is still "sharkos." The Developer found this hilarious the first time and still does.</p>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">Section 4: The Fine Print</div>
+        <p>By using SharkOS 2.0, the User (hereinafter referred to as "Lara" or "ma'am") agrees to the following:</p>
+        <p>(i) The Developer shall not be held responsible for any emotional damage caused by reading the Love Letter in public.</p>
+        <p>(ii) The Developer shall not be held responsible for any frustration caused by the Heart-eating Shark game, which is, objectively, too hard.</p>
+        <p>(iii) The Developer shall continue to love the User regardless of how many times she closes his apps without reading them.</p>
+        <p>(iv) This agreement is binding in perpetuity or until the User says "umay na tayo sa isa't isa," whichever comes first.</p>
+      </div>
+
+      <p class="fine-print">* This changelog is legally binding in zero jurisdictions. The Developer is not a lawyer. The Developer is a fatass.</p>
+    </div>
+
+    <div class="changelog-signature">
+      <p>Executed this day by</p>
+      <p class="sig-name">— Your fatass 🥷🧑</p>
+      <p style="font-size: 10px; color: var(--text-faint); margin-top: 4px;">CEO, Founder, Lead Developer, & Janitor of SharkOS</p>
+    </div>
+
+    <a href="index.html" class="changelog-back">← Back to SharkOS</a>
+  </div>
+</body>
+</html>
