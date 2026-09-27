@@ -184,31 +184,61 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('') + `<div class="dock-separator"></div><div class="dock-item" id="dock-finder" style="opacity:0.6;">🗑</div>`;
 
-    // Dock magnification
-    dock.addEventListener('mousemove', (e) => {
-      const items = dock.querySelectorAll('.dock-item');
-      const dockRect = dock.parentElement.getBoundingClientRect();
-      const mouseX = e.clientX - dockRect.left;
+    // Dock magnification with lerp smoothing
+    const dockItems = dock.querySelectorAll('.dock-item');
+    const itemScales = new Map();
+    const itemTargets = new Map();
+    let dockMouseX = -9999;
+    let dockHovered = false;
 
-      items.forEach(item => {
-        const itemRect = item.getBoundingClientRect();
-        const itemCenter = itemRect.left - dockRect.left + itemRect.width / 2;
-        const distance = Math.abs(mouseX - itemCenter);
-        const maxDist = 120;
-        if (distance < maxDist) {
-          const scale = 1 + (1 - distance / maxDist) * 0.5;
-          item.style.transform = `translateY(-${(scale - 1) * 16}px) scale(${scale})`;
-        } else {
-          item.style.transform = '';
-        }
-      });
+    dockItems.forEach(item => {
+      itemScales.set(item, 1);
+      itemTargets.set(item, 1);
+    });
+
+    dock.addEventListener('mousemove', (e) => {
+      const dockRect = dock.parentElement.getBoundingClientRect();
+      dockMouseX = e.clientX - dockRect.left;
+      dockHovered = true;
     });
 
     dock.addEventListener('mouseleave', () => {
-      dock.querySelectorAll('.dock-item').forEach(item => {
-        item.style.transform = '';
-      });
+      dockHovered = false;
+      dockMouseX = -9999;
     });
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function updateDock() {
+      if (dockHovered) {
+        const dockRect = dock.parentElement.getBoundingClientRect();
+        dockItems.forEach(item => {
+          const itemRect = item.getBoundingClientRect();
+          const itemCenter = itemRect.left - dockRect.left + itemRect.width / 2;
+          const distance = Math.abs(dockMouseX - itemCenter);
+          const maxDist = 100;
+          const target = distance < maxDist ? 1 + (1 - distance / maxDist) * 0.4 : 1;
+          itemTargets.set(item, target);
+        });
+      } else {
+        dockItems.forEach(item => itemTargets.set(item, 1));
+      }
+
+      dockItems.forEach(item => {
+        const current = itemScales.get(item);
+        const target = itemTargets.get(item);
+        const next = lerp(current, target, 0.2);
+        itemScales.set(item, next);
+        const lift = (next - 1) * 14;
+        item.style.transform = `translateY(-${lift}px) scale(${next})`;
+      });
+
+      requestAnimationFrame(updateDock);
+    }
+
+    requestAnimationFrame(updateDock);
   }
 
   function loadReasons() {

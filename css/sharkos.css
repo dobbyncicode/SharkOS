@@ -665,12 +665,8 @@ body {
   font-size: 28px;
   border-radius: 14px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-}
-
-.dock-item:hover {
-  transform: translateY(-8px) scale(1.2);
+  will-change: transform;
 }
 
 .dock-item.active::after {
