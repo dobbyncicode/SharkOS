@@ -1,6 +1,7 @@
 {
   "app": {
     "name": "SharkOS",
+    "version": "2.0.0",
     "menuLabels": {
       "love": "Love",
       "system": "System"
@@ -42,11 +43,14 @@
     { "title": "Over October - Kaakit-akit", "src": "songs/Over October - Kaakit-akit.mp3" }
   ],
   "loveLetter": {
-    "title": "Happy 19th Month, Love {{partnerEmoji}}💕!",
+    "title": "Happy 2nd Anniversary, Shark, RN",
     "paragraphs": [
-      "Nineteen months and counting. Can you imagine na ako yung magiging kasama mo sa halos dalawang taon na HAHA. Di na uso magselos sa'yo kasi alam kong sa akin ka na (I only said that. Magsisilus parin ako).",
-      "Salamat, Ms. {{partner}}. Sa lahat. Sa late night calls, sa random whatever dumps mo, sa love mo. Salamat sa pagtitiis sakin kahit annoying minsan.",
-      "Here's to more months of walang kwenta moments, and just existing together. I love you."
+      "Two years. If it weren't for that \"September\" cover, when do you think our great not so ordinary extraordinary story would take us first?",
+      "You made me meet you, and I want that on the record. I am fully capable of keeping someone alive over text for months and calling it a relationship. You didn't allow it. You kept saying come, and I kept finding reasons, and then one day you told me exactly where to be. I rode out from Bulacan, you rode up from Paranaque, we met at GMA Kamuning, the Cornelia Street as you call it, and we ate Jollibee like it was a date. Because it was.",
+      "Then I was in Bulacan for a few days, and that was the first time being with you felt like an ordinary thing instead of a whole event. I liked it. I don't think I said so at the time.",
+      "You're an RN now. I don't have a clever way to say this so I'll say it straight — I'm proud of you. You went to nursing school, you finished, you passed, and now you're the one who's about to handle everyone else's worst day and still comes home kind (and pretty hehe).",
+      "You have put up with a man whose entire professional life is talking to strangers on a timer. Dalawang taon na, Ms. Lara. Salamat sa pagtitiis — literal na pagtitiis lmao.",
+      "Happy 2nd Anniversary. I want the rest of it — the good weeks and the loud ones. Same time next year, and the year after, and the year we both know exactly what we're doing and are still here."
     ],
     "signature": "— Your fatass {{meEmoji}}"
   },
