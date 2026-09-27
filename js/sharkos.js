@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     changelogModal.classList.add('hidden');
   });
 
+  document.getElementById('whats-new-btn').addEventListener('click', () => {
+    changelogModal.classList.remove('hidden');
+  });
+
   fetch('config.json')
     .then(res => res.json())
     .then(data => {
