@@ -14,6 +14,7 @@
     <div class="menu-left">
       <span class="menu-logo">🦈</span>
       <span class="menu-app-name" data-config="app.name">SharkOS</span>
+      <span class="menu-version" data-config="app.version">2.0.0</span>
       <span class="menu-item">File</span>
       <span class="menu-item">Edit</span>
       <span class="menu-item">View</span>
@@ -52,36 +53,39 @@
       <div class="changelog-sub">— the only thing that changed is everything else —</div>
       <div class="changelog-divider"></div>
       <div class="changelog-body">
+        <p class="cl-lede">Everything below actually shipped. Nothing here is aspirational, except the parts about you, which are also true.</p>
+
         <div class="clause">
-          <div class="clause-title">Section 1: The OS Has Been Rebuilt</div>
-          <p>WHEREAS the previous iteration was functional but visually comparable to a Windows 95 screensaver found in a thrift store;</p>
-          <p>WHEREAS the Developer has spent an unreasonable number of hours rebuilding everything;</p>
-          <p>NOW, THEREFORE, SharkOS 2.0 is hereby released with glassmorphism, macOS Sonoma layout, and a dock that no longer moves like it's having a seizure.</p>
+          <div class="cl-version">v2.0.0</div>
+          <div class="cl-date">28 September 2026 &nbsp;·&nbsp; "2nd Anniversary Edition"</div>
+
+          <div class="cl-tag cl-tag-break">Breaking</div>
+          <p>Taskbar deleted. There is a menu bar now, at the top. The dock moved to the bottom. No migration path, no deprecation notice, no apology.</p>
+          <p>Entire visual layer replaced with a glassmorphism system — real <code>backdrop-filter</code> blur, saturated fills, hairline borders. Every surface. The old build was a reskin; this one is a rewrite.</p>
+
+          <div class="cl-tag cl-tag-add">Added</div>
+          <p><b>Our Story</b> — a three-act ASCII story. 14 scenes, 3 endings, branchable, plays start to finish without stalling.</p>
+          <p>A "What's New" button in the menu bar, deliberately near-invisible, for when you dismiss this and immediately regret it.</p>
+          <p>Clock widget. Dock magnification that lerps instead of snapping.</p>
+
+          <div class="cl-tag cl-tag-fix">Fixed</div>
+          <p><b>The story froze. Twice.</b> Two <code>next</code> pointers referenced <code>act2</code> / <code>act3</code> — array names, not scene ids — so the lookup returned <code>-1</code> and the engine silently returned. Both are fixed.</p>
+          <p>Added <code>resolveNext()</code>: an unresolvable <code>next</code> now falls back to the next scene in array order and logs a warning, so a bad link can never freeze the UI again.</p>
+          <p>Backslashes in the ASCII art were being silently consumed by the JS template literal, so the guinea pigs rendered with no legs. The art now matches the source.</p>
+          <p>Leftover debug art ("SOMETHING IS WRONG") removed from the logout scene.</p>
+
+          <div class="cl-tag cl-tag-write">Writing</div>
+          <p>All 14 scenes rebuilt to a uniform 25-column frame with aligned box interiors.</p>
+          <p>She has agency now. She opens the conversation, she demands the confession, she sets the date, she pushes to meet, she picks the staycation. Previously she just received things.</p>
+          <p>Point of view is strict — "you" is her, "he" is him. Cut every third-person slip ("the two of them", "we know", "She finished nursing").</p>
+          <p>Consistency pass against the real timeline. Removed a breadwinner who never existed, a hallway in a building he was never physically in, and a line that flatly contradicted the next one.</p>
+          <p>Cut the legal disclaimer from the ending. It was deflating the landing it sat under.</p>
+
+          <div class="cl-tag cl-tag-same">Untouched</div>
+          <p>The five reasons. The shark game. The four songs. The puzzle gate — still "1 + 2 = ?", still "sharkos". The playlist is still curated.</p>
         </div>
-        <div class="clause">
-          <div class="clause-title">Section 2: What Has Changed (Allegedly)</div>
-          <p>(a) Taskbar replaced with menu bar. It's at the top now. Deal with it.</p>
-          <p>(b) Dock installed at bottom. Magnifies when hovered. "Smooth now."</p>
-          <p>(c) Windows open centered like civilized apps.</p>
-          <p>(d) Sonoma gradient wallpaper. 45 minutes of work.</p>
-          <p>(e) Clock widget added. Tells time. Does it well.</p>
-        </div>
-        <div class="clause">
-          <div class="clause-title">Section 3: What Has NOT Changed</div>
-          <p>(a) Reasons app. Still 5 reasons. Too lazy to add more.</p>
-          <p>(b) Shark game. Still impossible. Still your fault.</p>
-          <p>(c) Love Letter. Still Taglish. Still "Your fatass."</p>
-          <p>(d) Playlist. Still 4 songs. "Curated."</p>
-          <p>(e) Puzzle gate. Still "1 + 2 = ?" Still "sharkos."</p>
-        </div>
-        <div class="clause">
-          <div class="clause-title">Section 4: The Fine Print</div>
-          <p>(i) Not responsible for emotional damage from reading the Love Letter in public.</p>
-          <p>(ii) Not responsible for frustration from the Shark game, which is too hard.</p>
-          <p>(iii) Will continue to love you regardless of how many times you close apps without reading them.</p>
-          <p>(iv) Binding in perpetuity or until "umay na tayo," whichever comes first.</p>
-        </div>
-        <p class="fine-print">* Legally binding in zero jurisdictions. The Developer is not a lawyer. The Developer is a fatass.</p>
+
+        <p class="fine-print">* This changelog is legally binding in zero jurisdictions. The Developer is not a lawyer. The Developer is a fatass.</p>
       </div>
       <div class="changelog-footer">
         <label class="changelog-check">

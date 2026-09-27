@@ -85,6 +85,49 @@
       margin-top: 24px;
       font-style: italic;
     }
+    /* versioned changelog entries — kept in sync with css/sharkos.css */
+    .changelog-body .cl-version {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      margin-bottom: 1px;
+    }
+    .changelog-body .cl-date {
+      color: var(--text-faint);
+      font-size: 10px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .changelog-body .cl-tag {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    .changelog-body .cl-tag-break { color: #ff7b7b; }
+    .changelog-body .cl-tag-add   { color: #7bffb0; }
+    .changelog-body .cl-tag-fix   { color: #ffd27b; }
+    .changelog-body .cl-tag-write { color: #b79bff; }
+    .changelog-body .cl-tag-same  { color: var(--text-faint); }
+    .changelog-body .cl-lede {
+      color: var(--text-dim);
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .changelog-body p {
+      margin-bottom: 6px;
+    }
+    .changelog-body code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.92em;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0 3px;
+      border-radius: 3px;
+    }
     .changelog-signature {
       margin-top: 32px;
       text-align: right;
@@ -115,43 +158,42 @@
 </head>
 <body>
   <div class="changelog-container">
+    <div class="changelog-title">Change log</div>
     <div class="changelog-headline">NOTHING! IT IS STILL YOU AFTER THIS MUCH DAYS AND NIGHTS</div>
     <div class="changelog-subheadline">— the only thing that changed is everything else —</div>
     <div class="changelog-divider"></div>
 
     <div class="changelog-body">
-      <div class="clause">
-        <div class="clause-title">Section 1: The OS Has Been Rebuilt</div>
-        <p>WHEREAS the previous iteration of SharkOS (hereinafter referred to as "the old thing") was functional but visually comparable to a Windows 95 screensaver found in a thrift store;</p>
-        <p>WHEREAS the Developer (hereinafter referred to as "the fatass") has spent an unreasonable number of hours rebuilding the entire interface from scratch;</p>
-        <p>NOW, THEREFORE, SharkOS 2.0 is hereby released with a glassmorphism design system, macOS Sonoma layout, and a dock that no longer moves like it's having a seizure.</p>
-      </div>
+      <p class="cl-lede">Everything below actually shipped. Nothing here is aspirational, except the parts about you, which are also true.</p>
 
       <div class="clause">
-        <div class="clause-title">Section 2: What Has Changed (Allegedly)</div>
-        <p>(a) The taskbar has been replaced with a menu bar. It is at the top now. Deal with it.</p>
-        <p>(b) A dock has been installed at the bottom. It magnifies when hovered. The Developer insists this is "smooth now" despite initial reports of jankiness.</p>
-        <p>(c) Windows now open in the center of the screen like civilized applications instead of spawning in random locations like feral cats.</p>
-        <p>(d) The wallpaper is a gradient. Not just any gradient. A Sonoma gradient. The Developer would like you to know he spent 45 minutes on it.</p>
-        <p>(e) A clock widget has been added to the desktop. It tells time. That is its whole job. It does it well.</p>
-      </div>
+        <div class="cl-version">v2.0.0</div>
+        <div class="cl-date">28 September 2026 &nbsp;·&nbsp; "2nd Anniversary Edition"</div>
 
-      <div class="clause">
-        <div class="clause-title">Section 3: What Has NOT Changed</div>
-        <p>(a) The Reasons Why I Love You app. Still there. Still the same five reasons. The Developer was too lazy to add more.</p>
-        <p>(b) The Heart-eating Shark game. Still impossible. Still eating hearts. Still your fault for missing.</p>
-        <p>(c) The Love Letter. Still in Taglish. Still making the Developer emotional. Still signed "Your fatass."</p>
-        <p>(d) The Playlist. Still four songs. The Developer maintains this is "curated" and not "too lazy to add more."</p>
-        <p>(e) The puzzle gate. Still asks "1 + 2 = ?" The answer is still "sharkos." The Developer found this hilarious the first time and still does.</p>
-      </div>
+        <div class="cl-tag cl-tag-break">Breaking</div>
+        <p>Taskbar deleted. There is a menu bar now, at the top. The dock moved to the bottom. No migration path, no deprecation notice, no apology.</p>
+        <p>Entire visual layer replaced with a glassmorphism system — real <code>backdrop-filter</code> blur, saturated fills, hairline borders. Every surface. The old build was a reskin; this one is a rewrite.</p>
 
-      <div class="clause">
-        <div class="clause-title">Section 4: The Fine Print</div>
-        <p>By using SharkOS 2.0, the User (hereinafter referred to as "Lara" or "ma'am") agrees to the following:</p>
-        <p>(i) The Developer shall not be held responsible for any emotional damage caused by reading the Love Letter in public.</p>
-        <p>(ii) The Developer shall not be held responsible for any frustration caused by the Heart-eating Shark game, which is, objectively, too hard.</p>
-        <p>(iii) The Developer shall continue to love the User regardless of how many times she closes his apps without reading them.</p>
-        <p>(iv) This agreement is binding in perpetuity or until the User says "umay na tayo sa isa't isa," whichever comes first.</p>
+        <div class="cl-tag cl-tag-add">Added</div>
+        <p><b>Our Story</b> — a three-act ASCII story. 14 scenes, 3 endings, branchable, plays start to finish without stalling.</p>
+        <p>A "What's New" button in the menu bar, deliberately near-invisible, for when you dismiss this and immediately regret it.</p>
+        <p>Clock widget. Dock magnification that lerps instead of snapping.</p>
+
+        <div class="cl-tag cl-tag-fix">Fixed</div>
+        <p><b>The story froze. Twice.</b> Two <code>next</code> pointers referenced <code>act2</code> / <code>act3</code> — array names, not scene ids — so the lookup returned <code>-1</code> and the engine silently returned. Both are fixed.</p>
+        <p>Added <code>resolveNext()</code>: an unresolvable <code>next</code> now falls back to the next scene in array order and logs a warning, so a bad link can never freeze the UI again.</p>
+        <p>Backslashes in the ASCII art were being silently consumed by the JS template literal, so the guinea pigs rendered with no legs. The art now matches the source.</p>
+        <p>Leftover debug art ("SOMETHING IS WRONG") removed from the logout scene.</p>
+
+        <div class="cl-tag cl-tag-write">Writing</div>
+        <p>All 14 scenes rebuilt to a uniform 25-column frame with aligned box interiors.</p>
+        <p>She has agency now. She opens the conversation, she demands the confession, she sets the date, she pushes to meet, she picks the staycation. Previously she just received things.</p>
+        <p>Point of view is strict — "you" is her, "he" is him. Cut every third-person slip ("the two of them", "we know", "She finished nursing").</p>
+        <p>Consistency pass against the real timeline. Removed a breadwinner who never existed, a hallway in a building he was never physically in, and a line that flatly contradicted the next one.</p>
+        <p>Cut the legal disclaimer from the ending. It was deflating the landing it sat under.</p>
+
+        <div class="cl-tag cl-tag-same">Untouched</div>
+        <p>The five reasons. The shark game. The four songs. The puzzle gate — still "1 + 2 = ?", still "sharkos". The playlist is still curated.</p>
       </div>
 
       <p class="fine-print">* This changelog is legally binding in zero jurisdictions. The Developer is not a lawyer. The Developer is a fatass.</p>

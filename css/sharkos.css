@@ -96,6 +96,17 @@ body {
   letter-spacing: -0.01em;
 }
 
+.menu-version {
+  font-size: 10px;
+  color: var(--text-faint);
+  letter-spacing: 0.5px;
+  padding: 1px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  margin-right: 4px;
+  user-select: none;
+}
+
 .menu-item {
   font-size: 12px;
   color: var(--text-dim);
@@ -843,6 +854,47 @@ body {
   color: var(--text-faint);
   font-style: italic;
   margin-top: 10px;
+}
+
+/* ---- versioned changelog entries ---- */
+.changelog-body .cl-version {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  margin-bottom: 1px;
+}
+.changelog-body .cl-date {
+  color: var(--text-faint);
+  font-size: 9px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.changelog-body .cl-tag {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 7px;
+}
+.changelog-body .cl-tag-break { color: #ff7b7b; }
+.changelog-body .cl-tag-add   { color: #7bffb0; }
+.changelog-body .cl-tag-fix   { color: #ffd27b; }
+.changelog-body .cl-tag-write { color: #b79bff; }
+.changelog-body .cl-tag-same  { color: var(--text-faint); }
+.changelog-body .cl-lede {
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.changelog-body code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.92em;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0 3px;
+  border-radius: 3px;
 }
 
 .changelog-footer {
