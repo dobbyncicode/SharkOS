@@ -8,36 +8,39 @@
 </head>
 <body>
 
+  <div id="wallpaper"></div>
+
+  <div id="menu-bar">
+    <div class="menu-left">
+      <span class="menu-logo">🦈</span>
+      <span class="menu-app-name" data-config="app.name">SharkOS</span>
+      <span class="menu-item">File</span>
+      <span class="menu-item">Edit</span>
+      <span class="menu-item">View</span>
+      <span class="menu-item">Window</span>
+      <span class="menu-item">Help</span>
+    </div>
+    <div class="menu-right">
+      <span class="menu-icon">🔊</span>
+      <span class="menu-icon">📶</span>
+      <span class="menu-icon">🔋</span>
+      <span class="menu-clock" id="menu-clock">12:00 PM</span>
+    </div>
+  </div>
+
   <div id="desktop">
-    <div id="date-display">
-      <div class="time" id="time">12:00</div>
-      <div id="date">April 27, 2026</div>
+    <div class="widget" id="clock-widget">
+      <div class="widget-time" id="widget-time">12:00</div>
+      <div class="widget-date" id="widget-date">April 27, 2026</div>
     </div>
 
-    <div id="icons"></div>
+    <div id="desktop-icons"></div>
 
     <div id="windows"></div>
   </div>
 
-  <div id="start-menu">
-    <div class="profile-section">
-      <div class="avatar" data-config="profile.ownerEmoji">🧑</div>
-      <div class="profile-info">
-        <div class="name" data-config="profile.owner">Owner</div>
-        <div class="status" data-config="profile.status">Status</div>
-      </div>
-    </div>
-    <div id="menu-items"></div>
-  </div>
-
-  <div id="taskbar">
-    <div id="start-btn" data-action="toggle-start">🦈</div>
-    <div id="taskbar-windows"></div>
-    <div class="taskbar-items">
-      <div class="taskbar-item">🔊</div>
-      <div class="taskbar-item">📶</div>
-      <div class="taskbar-item" id="taskbar-time">12:00 PM</div>
-    </div>
+  <div id="dock">
+    <div id="dock-container"></div>
   </div>
 
   <script src="js/sharkos.js"></script>
