@@ -193,7 +193,7 @@
     pointer-events: none;
   }
 
-  #pet-overlay {
+  #pet-layer {
     position: absolute;
     inset: 0;
     z-index: 6;
@@ -201,11 +201,12 @@
     overflow: hidden;
   }
 
-  .pet {
+  .pet-run {
     position: absolute;
-    font-size: 24px;
-    transition: left 3s linear, top 3s linear;
-    opacity: 0.7;
+    font-size: 14px;
+    white-space: pre;
+    line-height: 1;
+    opacity: 0.6;
   }
 
   /* Mobile */
@@ -251,8 +252,8 @@
       font-size: clamp(16px, 5vw, 22px);
     }
 
-    .pet {
-      font-size: 18px;
+    .pet-run {
+      font-size: 10px;
     }
   }
 </style>
@@ -266,7 +267,7 @@
   </div>
 
   <canvas id="particles"></canvas>
-  <div id="pet-overlay"></div>
+  <div id="pet-layer"></div>
   <pre id="ascii-layer"></pre>
   <div id="text-layer">
     <div id="speaker"></div>
@@ -301,6 +302,33 @@ const Game = {
 };
 
 // ============================================================
+//  GUINEA PIG ASCII ART
+// ============================================================
+
+const guineaPig = [
+  "  _  _  _  _  _  _  ",
+  " ( )( )( )( )( )( ) ",
+  "  V  V  V  V  V  V  ",
+  "   \\  \\  \\  \\  \\    ",
+  "    \\  \\  \\  \\  \\  ",
+  "     \\__/  \\__/  \\__"
+];
+
+const guineaPigSimple = [
+  "   _  _  _  ",
+  "  ( )( )( ) ",
+  "   V  V  V  "
+];
+
+const bunny = [
+  "   \\   /   ",
+  "    \\ /    ",
+  "    ( )    ",
+  "   (   )   ",
+  "  (     )  "
+];
+
+// ============================================================
 //  STORY DATA
 // ============================================================
 
@@ -321,7 +349,7 @@ const story = [
    *        .    .      *
 `,
     lines: [
-      { speaker: "Narrator", text: "It's a Tuesday night. The BPO is alive with the sound of dial tones and hold music. Different sides of the same LOB — he's home, she's on-site." },
+      { speaker: "Narrator", text: "It's a Tuesday night. The BPO is alive with dial tones and hold music. Different sides of the same LOB — he's on his PC at home, she's on-site." },
       { speaker: "Narrator", text: "He works from home — outbound dialer specialist. She's on-site — technical support, part-time, because she's also a nursing student." },
       { speaker: "Narrator", text: "Different shifts. Different desks. Different sides of the same building, even if one of them is just a laptop and a quiet room." },
       { speaker: "Narrator", text: "You've seen him around the team channels. Quiet. Shy. Kind of cute, if you're being honest. Tonight, something is different." },
@@ -359,7 +387,7 @@ const story = [
       { speaker: "Narrator", text: "A casual message. 'What do you think of this?' Nothing deep. Just... a conversation starter. The kind you send when you're bored and his name is the first one you see." },
       { speaker: "Narrator", text: "He responds. Shy. A little awkward. 'Of what? lol' — the kind of response that makes you smile because it's so... him." },
       { speaker: "Narrator", text: "But then the conversation shifts. Something in her tone changes. And before you know it, she's not okay." },
-      { speaker: "Narrator", text: "And he... he logs out of work. Just like that. Leaves his shift, his dialer, his metrics — to keep her company. For a few moments. That turn into hours." },
+      { speaker: "Narrator", text: "He sees it. He doesn't think twice. He logs out of work — leaves his dialer, his shift, his metrics — to keep her company. For a few moments. That turn into hours." },
       { speaker: "Narrator", text: "You talked. And talked. And talked. Until the sun came up. And something between you changed. Something you couldn't take back." },
     ],
     next: "the_distress"
@@ -488,10 +516,16 @@ const story = [
     bg: `
     ~~~~~ THE FURRY FAMILY ~~~~~
 
-    🐹 Poro  🐹 Porkchop  🐹 Peanut
-    🐹 Snow  🐹 Pudding
-    🐰 Bambi (you hate him now)
-    🐕 small pups (rehomed)
+       _  _  _  _  _  _
+      ( )( )( )( )( )( )
+       V  V  V  V  V  V
+        \\  \\  \\  \\  \\
+         \\  \\  \\  \\  \\
+          \\__/  \\__/  \\__
+
+    Poro  Porkchop  Peanut
+    Snow  Pudding   Bambi (bunny)
+    guinea pig pups (rehomed)
 
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
      ~  chaos  ~  love  ~  joy  ~
@@ -500,7 +534,7 @@ const story = [
     lines: [
       { speaker: "Narrator", text: "Then came the guinea pigs. Poro. Porkchop. Peanut. Snow. Pudding. Five little chaos machines." },
       { speaker: "Narrator", text: "And Bambi. The bunny. Who you loved once. And now... tolerates. From a distance. With side-eye." },
-      { speaker: "Narrator", text: "There were also small pups — rehomed, loved, and sent to their forever families. But the main squad? They're here to stay." },
+      { speaker: "Narrator", text: "There were also guinea pig pups — rehomed, loved, and sent to their forever families. But the main squad? They're here to stay." },
       { speaker: "Narrator", text: "They're family. All of them. Even Bambi. Especially Bambi." },
     ],
     next: "the_staycation"
@@ -516,10 +550,13 @@ const story = [
     |                     |
     |   STAYCATION TIME   |
     |                     |
-    |   Within Bulacan or |
-    |   Paranaque.        |
-    |   Accessible by     |
-    |   train.            |
+    |   Hotels are away   |
+    |   like Cubao or     |
+    |   somewhere in      |
+    |   Manila.           |
+    |                     |
+    |   Or just stay      |
+    |   home.             |
     |                     |
     |   Where to go?      |
     |   What to do?       |
@@ -529,21 +566,21 @@ const story = [
 `,
     lines: [
       { speaker: "Narrator", text: "Next month. A staycation. Just the two of them. No work. No stress. No BPO. Just... them." },
-      { speaker: "Narrator", text: "Somewhere within Bulacan or Paranaque. Somewhere you can reach by train. Somewhere in between is fine." },
+      { speaker: "Narrator", text: "Hotels are away — Cubao, somewhere in Manila. Or just stay home. Both are good. Both are theirs." },
       { speaker: "Narrator", text: "And the question is: where do you go? What do you do?" },
     ],
     choices: [
-      { text: "A hotel in Bulacan — bed, breakfast, and doing nothing", next: "bulacan_hotel", affection: 3 },
-      { text: "A hotel in Paranaque — sleep, food, and a long walk", next: "paranaque_hotel", affection: 3 },
+      { text: "A hotel in Manila — bed, breakfast, and doing nothing", next: "manila_hotel", affection: 3 },
+      { text: "Stay home — just the two of you, nowhere to be", next: "stay_home", affection: 3 },
       { text: "A spa day — you deserve it, RN or not", next: "spa_day", affection: 4 },
     ]
   },
 
-  // --- SCENE 9A: BULACAN HOTEL ---
+  // --- SCENE 9A: MANILA HOTEL ---
   {
-    id: "bulacan_hotel",
+    id: "manila_hotel",
     bg: `
-    ~~~~~ BULACAN HOTEL ~~~~~
+    ~~~~~ MANILA HOTEL ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
     .    *    .    *    .
       .    . * .    .  *
@@ -553,7 +590,7 @@ const story = [
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A hotel in Bulacan. Bed. Breakfast. And absolutely nothing on the agenda. No alarms. No schedules. No dial tones." },
+      { speaker: "Narrator", text: "A hotel in Manila. Bed. Breakfast. And absolutely nothing on the agenda. No alarms. No schedules. No dial tones." },
       { speaker: "Narrator", text: "You wake up late. You eat slowly. You talk about nothing and everything. And for the first time in months, you both breathe." },
       { speaker: "Narrator", text: "You spend the day in bed, ordering room service, watching bad TV, and remembering why you chose this person in the first place." },
       { speaker: "Narrator", text: "It's not fancy. It's not instagrammable. It's just... perfect." },
@@ -561,23 +598,23 @@ const story = [
     next: "ending"
   },
 
-  // --- SCENE 9B: PARANAQUE HOTEL ---
+  // --- SCENE 9B: STAY HOME ---
   {
-    id: "paranaque_hotel",
+    id: "stay_home",
     bg: `
-    ~~~~~ PARANAQUE HOTEL ~~~~~
+    ~~~~~ HOME SWEET HOME ~~~~~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ~~~~~^^~~~~~  ~~~~~^^~~~~~
-    ~  ~  ~  ~  ~  ~  ~  ~  ~
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [ sleep · food · long walk ]
+     ___||___________||___
+    |   |  []  []  |   |___
+    |   |  []  []  |   |__.
+    |___|__________|___|
+        [ you · him · pets ]
     ~~~~~~~~~~~~~~~~~~~~~~~~~~
 `,
     lines: [
-      { speaker: "Narrator", text: "A hotel in Paranaque. Sleep. Food. And a long walk around the neighborhood where you grew up." },
-      { speaker: "Narrator", text: "You show him your old spots. The corner store. The street you used to play in. The school you hated. All of it." },
-      { speaker: "Narrator", text: "He listens. He asks questions. He holds your hand and doesn't let go, even when you point at the embarrassing places." },
-      { speaker: "Narrator", text: "You eat at a local place. You talk about nothing. You walk until your feet hurt. And you think: this. This is the good stuff." },
+      { speaker: "Narrator", text: "Stay home. Just the two of you. Nowhere to be. Nothing to do. Just the quiet comfort of a space that's yours." },
+      { speaker: "Narrator", text: "You cook together. You watch movies. You argue over what to watch. You make up. You exist." },
+      { speaker: "Narrator", text: "The guinea pigs run around. Bambi judges from the corner. And you think: this. This is the good stuff." },
     ],
     next: "ending"
   },
@@ -695,53 +732,51 @@ function updateParticles() {
 }
 
 // ============================================================
-//  PETS — running across the screen
+//  PETS — ASCII art that appears on frames
 // ============================================================
 
-const pets = ['🐹', '🐹', '🐹', '🐹', '🐹', '🐰'];
-const petNames = ['Poro', 'Porkchop', 'Peanut', 'Snow', 'Pudding', 'Bambi'];
+const petArt = [
+  { name: "guinea pig", art: guineaPigSimple },
+  { name: "guinea pig", art: guineaPig },
+  { name: "bunny", art: bunny }
+];
 
 function spawnPet() {
-  const overlay = document.getElementById('pet-overlay');
-  if (!overlay) return;
+  const layer = document.getElementById('pet-layer');
+  if (!layer) return;
 
-  const pet = document.createElement('div');
-  pet.className = 'pet';
-  const petIndex = Math.floor(Math.random() * pets.length);
-  pet.textContent = pets[petIndex];
-  pet.title = petNames[petIndex];
+  const pet = petArt[Math.floor(Math.random() * petArt.length)];
+  const el = document.createElement('div');
+  el.className = 'pet-run';
+  el.textContent = pet.art.join('\n');
 
-  const startX = Math.random() > 0.5 ? -30 : overlay.offsetWidth + 30;
-  const startY = Math.random() * (overlay.offsetHeight - 40) + 10;
-  const endX = startX < 0 ? overlay.offsetWidth + 30 : -30;
+  const startX = Math.random() > 0.5 ? -100 : layer.offsetWidth + 100;
+  const startY = Math.random() * (layer.offsetHeight - 60) + 10;
+  const endX = startX < 0 ? layer.offsetWidth + 100 : -100;
 
-  pet.style.left = startX + 'px';
-  pet.style.top = startY + 'px';
+  el.style.left = startX + 'px';
+  el.style.top = startY + 'px';
 
-  overlay.appendChild(pet);
+  layer.appendChild(el);
 
-  // Animate
   setTimeout(() => {
-    pet.style.left = endX + 'px';
-    pet.style.top = (Math.random() * (overlay.offsetHeight - 40) + 10) + 'px';
+    el.style.left = endX + 'px';
+    el.style.top = (Math.random() * (layer.offsetHeight - 60) + 10) + 'px';
   }, 50);
 
-  // Remove after animation
   setTimeout(() => {
-    pet.remove();
-  }, 3500);
+    el.remove();
+  }, 4000);
 }
 
 function initPets() {
-  // Spawn a pet every few seconds
   Game.petInterval = setInterval(() => {
-    if (Math.random() > 0.4) {
+    if (Math.random() > 0.5) {
       spawnPet();
     }
-  }, 2500);
+  }, 3500);
 
-  // Spawn one immediately
-  setTimeout(spawnPet, 1000);
+  setTimeout(spawnPet, 1500);
 }
 
 // ============================================================
@@ -847,7 +882,6 @@ function pickChoice(index) {
   Game.choicesVisible = false;
   document.getElementById('choices').innerHTML = '';
 
-  // Store the choice for "him" to find
   Game.finalChoice = choice.text;
 
   const nextIndex = findSceneIndex(choice.next);
@@ -894,7 +928,6 @@ function advance() {
       const nextIndex = findSceneIndex(scene.next);
       if (nextIndex !== -1) transitionTo(nextIndex);
     } else {
-      // Story ended — show a subtle "notification" for him
       Game.waitingForContinue = false;
       showSecretMessage();
     }
@@ -908,7 +941,7 @@ function advance() {
 // ============================================================
 
 function showSecretMessage() {
-  const overlay = document.getElementById('pet-overlay');
+  const layer = document.getElementById('pet-layer');
   const msg = document.createElement('div');
   msg.style.cssText = `
     position: absolute;
@@ -922,17 +955,12 @@ function showSecretMessage() {
     color: #ff9dc0;
     font-family: 'VT323', monospace;
     pointer-events: none;
-    animation: pulse 2s ease-in-out infinite;
   `;
-  msg.innerHTML = `📧 She picked: <strong>${Game.finalChoice || 'somewhere in particular'}</strong>`;
-  overlay.appendChild(msg);
+  msg.innerHTML = `She picked: <strong>${Game.finalChoice || 'somewhere in particular'}</strong>`;
+  layer.appendChild(msg);
 
   setTimeout(() => { msg.style.opacity = '0'; msg.style.transition = 'opacity 1s'; }, 8000);
   setTimeout(() => { msg.remove(); }, 9500);
-}
-
-function pulse() {
-  // CSS animation placeholder
 }
 
 // ============================================================
