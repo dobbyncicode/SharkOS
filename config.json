@@ -37,6 +37,7 @@
     }
   },
   "playlist": [
+    { "title": "Taylor Swift - September", "src": "songs/Taylor Swift - September.mp3" },
     { "title": "Jason Mraz - I'm Yours", "src": "songs/Jason Mraz - I'm Yours.mp3" },
     { "title": "KIMMUSEUM - We're Already", "src": "songs/KIMMUSEUM - We're Already.mp3" },
     { "title": "ONE CLICK STRAIGHT - otw", "src": "songs/ONE CLICK STRAIGHT - otw.mp3" },
